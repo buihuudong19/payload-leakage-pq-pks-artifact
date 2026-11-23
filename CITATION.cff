@@ -3,6 +3,17 @@ message: "If you use this software, please cite the article in preferred-citatio
 type: software
 title: "Code for: Structural Payload Leakage in Post-Quantum Public-Key Image Steganography"
 version: "1.0.0"
+doi: "10.5281/zenodo.24465712"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.24465712"
+    description: "Concept DOI: all versions of the software (resolves to the latest)"
+  - type: doi
+    value: "10.5281/zenodo.24465713"
+    description: "Version DOI of release v1.0.0, the version used in the article"
+  - type: doi
+    value: "10.5281/zenodo.24462430"
+    description: "Dataset pq-pks-raw-data-v1 (raw measurement data)"
 date-released: "2026-11-24"
 license: MIT
 repository-code: "https://github.com/buihuudong19/payload-leakage-pq-pks-artifact"

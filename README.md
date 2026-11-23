@@ -1,5 +1,7 @@
 # Structural Payload Leakage in Post-Quantum Public-Key Image Steganography: code artifact
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24465712.svg)](https://doi.org/10.5281/zenodo.24465712)
+
 This repository contains the implementation and the experiment pipeline of the article
 
 > Dong Bui-Huu and Khuong Nguyen-An, *Structural Payload Leakage in Post-Quantum Public-Key Image Steganography*.
@@ -11,8 +13,9 @@ Kemeleon so that the extracted string is close to uniform. The code implements P
 systems of the comparison, the wardens, and every experiment of the article (E1 to E7, the ablations and
 the SRNet runs).
 
-Release `v1.0.0` is the version used in the article. The raw measurement data are archived separately (see
-[Measurement data](#measurement-data)).
+Release `v1.0.0` is the version used in the article; it is archived on Zenodo at https://doi.org/10.5281/zenodo.24465713
+(the badge above, https://doi.org/10.5281/zenodo.24465712, always points to the latest version). The raw measurement
+data are archived separately at https://doi.org/10.5281/zenodo.24462430 (see [Measurement data](#measurement-data)).
 
 > **Research code.** The Kemeleon encoding is implemented with Python big integers and is not constant time.
 > Do not use this code to protect real communication.
