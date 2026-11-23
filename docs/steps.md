@@ -2,8 +2,9 @@
 
 Generated from `scripts/orchestration/pipeline.ps1` with `python scripts/orchestration/plan_table.py`. `$Py` is the
 Python of `.venv-confirm`, `$PyG` the Python of `.venv-gpu`. A dependency `~X` only waits for step X to end; `file:P`
-waits for file P; `serial:X` applies only when step G2b decides to run one GPU process at a time. Lanes W10 and W11 are
-opened by hand (`run_lane.ps1 -Lane W10`, `-Lane W11`).
+waits for file P; `serial:X` applies only when step G2b decides to run one GPU process at a time. Lanes W10, W11 and W12 are
+opened by hand (`run_lane.ps1 -Lane W10`, `-Lane W11`, `-Lane W12`); W12 holds the post-hoc analyses, which change no
+registered decision.
 
 | # | Step | Lane | Command | Task | Waits for | Estimate | Output |
 |---|---|---|---|---|---|---|---|
@@ -70,18 +71,21 @@ opened by hand (`run_lane.ps1 -Lane W10`, `-Lane W11`).
 | 61 | PF6 | W11 | `& $Py scripts\experiments\write_results_confirm.py` | Final: Tables 9-12, S1 (RESULTS_TABLES.md) | PF5, PF5, ~G12 | < 1 min | `results\RESULTS_TABLES.md` |
 | 62 | PF7 | W11 | `& $Py scripts\orchestration\collect_results.py` | Final: collect results | PF6, PF6, ~R1 | < 1 min | `results\manuscript_inputs` |
 | 63 | PF8 | W11 | `& $Py scripts\figures\make_all_figures.py` | Final: regenerate every figure (results\figures) | PF7, PF7 | 2-5 min | `results\figures_confirm` |
-| 64 | G1 | W2 | `powershell -ExecutionPolicy Bypass -File scripts\gpu\setup_gpu.ps1` | Install .venv-gpu (torch CUDA) · checked after running | – | 10-30 min | `.venv-gpu` |
-| 65 | G3a | W2 | `& $PyG scripts\gpu\srnet_train.py --run g4_hill_0.4 --until 200000` | SRNet G4 HILL 0.4: 200k iterations lr 1e-3 (branch point) | G1, C1 | ~11 h | `results\srnet\g4_hill_0.4` |
-| 66 | G3b | W2 | `& $PyG scripts\gpu\srnet_train.py --run g4_hill_0.4_short` | SRNet G4 short branch: 50k iterations lr 1e-4 | G3a | ~3 h | `results\srnet\g4_hill_0.4_short` |
-| 67 | G7a | W2 | `& $Py scripts\confirm\srnet_evaluate.py g4` | SRNet G4 verdict (short branch) · checked after running | G3b | < 5 min | `results\srnet\g4_srnet_summary.json` |
-| 68 | G3c | W2 | `& $PyG scripts\gpu\srnet_train.py --run g4_hill_0.4` | Fallback: G4 HILL 0.4 full 500k schedule (only if the short branch fails) (skipped when: the short branch passed G4: no full schedule needed) | G7a | ~17 h | `results\srnet\g4_hill_0.4` |
-| 69 | G7b | W2 | `& $Py scripts\confirm\srnet_evaluate.py g4` | SRNet G4 verdict (full schedule) (skipped when: full schedule not run) · checked after running | G3c | < 5 min | `results\srnet\g4_srnet_summary.json` |
-| 70 | G2 | W2 | `& $PyG scripts\gpu\bench_srnet.py --quick` | GPU speed benchmark (idle GPU, before confirmatory SRNet) | G7b | 3-5 min | `results\gpu_bench` |
-| 71 | G2b | W2 | `& $Py scripts\orchestration\gpu_decide.py` | Decide on 1 or 2 GPU processes | ~G2 | < 1 min | `results\gpu_bench\decision.json` |
-| 72 | G8 | W2 | `& $PyG scripts\gpu\srnet_train.py --run confirm_REF-U_0.4` | Confirmatory SRNet REF-U 0.4 (150k iterations) | ~G2b, G7a, G7b, C5 | ~8 h (~16 in parallel) | `results\srnet\confirm_REF-U_0.4` |
-| 73 | G9 | W2 | `& $PyG scripts\gpu\srnet_train.py --run confirm_REF-U_0.2` | Confirmatory SRNet REF-U 0.2 (100k iterations) | G8 | ~6 h (~11 in parallel) | `results\srnet\confirm_REF-U_0.2` |
-| 74 | G12 | W2 | `& $Py scripts\confirm\srnet_evaluate.py confirm` | Confirmatory SRNet: P_E, TOST, McNemar | G9, G11 | < 5 min | `results\srnet\confirm_srnet_summary.json` |
-| 75 | G13 | W2 | `& $Py scripts\confirm\apply_rules.py --out results\srnet\decisions_srnet.json` | Decision rules with SRNet included | G12, C8 | < 1 min | `results\srnet\decisions_srnet.json` |
-| 76 | G10 | W3 | `& $PyG scripts\gpu\srnet_train.py --run confirm_PQ-PKS_0.4` | Confirmatory SRNet PQ-PKS 0.4 (150k iterations) | G7a, G7b, C5, serial:G9 | ~8 h (~16 in parallel) | `results\srnet\confirm_PQ-PKS_0.4` |
-| 77 | G11 | W3 | `& $PyG scripts\gpu\srnet_train.py --run confirm_PQ-PKS_0.2` | Confirmatory SRNet PQ-PKS 0.2 (100k iterations) | G10 | ~6 h (~11 in parallel) | `results\srnet\confirm_PQ-PKS_0.2` |
-| 78 | E4 | W4 | `& $Py scripts\experiments\e4_functional.py --size 512 --normal 100000 --tamper 10000 --cover-images 900 --out results\e4_full` | Full-scale E4 on 512x512 images | 1, 2 | 25-35 h | `results\e4_full\e4_summary.json` |
+| 64 | PH1 | W12 | `& $Py scripts\confirm\e1_posthoc_null.py` | Post hoc: E1 D4 under the uniform null (R = 1000 per variant) | C3 | 20-40 min | `results\e1_confirm\e1_posthoc_null.json` |
+| 65 | PH2 | W12 | `& $Py scripts\confirm\e1_posthoc_refit.py --workers 7 --B 2000 --null-R 200 --null-B 400` | Post hoc: E1 D4 interval with model refitting, and its coverage under the null | PH1, C3 | 1-2 h | `results\e1_confirm\e1_posthoc_refit.json` |
+| 66 | PH3 | W12 | `& $Py scripts\analysis\alpha_star_thresholds.py results\confirm_v1\summary.json --srnet results\srnet\decisions_srnet.json --out results\confirm_v1\alpha_star_thresholds.json` | Post hoc: alpha* at decision thresholds 0.35-0.45 (Table S12) | PH2, PF3, G13 | < 1 min | `results\confirm_v1\alpha_star_thresholds.json` |
+| 67 | G1 | W2 | `powershell -ExecutionPolicy Bypass -File scripts\gpu\setup_gpu.ps1` | Install .venv-gpu (torch CUDA) · checked after running | – | 10-30 min | `.venv-gpu` |
+| 68 | G3a | W2 | `& $PyG scripts\gpu\srnet_train.py --run g4_hill_0.4 --until 200000` | SRNet G4 HILL 0.4: 200k iterations lr 1e-3 (branch point) | G1, C1 | ~11 h | `results\srnet\g4_hill_0.4` |
+| 69 | G3b | W2 | `& $PyG scripts\gpu\srnet_train.py --run g4_hill_0.4_short` | SRNet G4 short branch: 50k iterations lr 1e-4 | G3a | ~3 h | `results\srnet\g4_hill_0.4_short` |
+| 70 | G7a | W2 | `& $Py scripts\confirm\srnet_evaluate.py g4` | SRNet G4 verdict (short branch) · checked after running | G3b | < 5 min | `results\srnet\g4_srnet_summary.json` |
+| 71 | G3c | W2 | `& $PyG scripts\gpu\srnet_train.py --run g4_hill_0.4` | Fallback: G4 HILL 0.4 full 500k schedule (only if the short branch fails) (skipped when: the short branch passed G4: no full schedule needed) | G7a | ~17 h | `results\srnet\g4_hill_0.4` |
+| 72 | G7b | W2 | `& $Py scripts\confirm\srnet_evaluate.py g4` | SRNet G4 verdict (full schedule) (skipped when: full schedule not run) · checked after running | G3c | < 5 min | `results\srnet\g4_srnet_summary.json` |
+| 73 | G2 | W2 | `& $PyG scripts\gpu\bench_srnet.py --quick` | GPU speed benchmark (idle GPU, before confirmatory SRNet) | G7b | 3-5 min | `results\gpu_bench` |
+| 74 | G2b | W2 | `& $Py scripts\orchestration\gpu_decide.py` | Decide on 1 or 2 GPU processes | ~G2 | < 1 min | `results\gpu_bench\decision.json` |
+| 75 | G8 | W2 | `& $PyG scripts\gpu\srnet_train.py --run confirm_REF-U_0.4` | Confirmatory SRNet REF-U 0.4 (150k iterations) | ~G2b, G7a, G7b, C5 | ~8 h (~16 in parallel) | `results\srnet\confirm_REF-U_0.4` |
+| 76 | G9 | W2 | `& $PyG scripts\gpu\srnet_train.py --run confirm_REF-U_0.2` | Confirmatory SRNet REF-U 0.2 (100k iterations) | G8 | ~6 h (~11 in parallel) | `results\srnet\confirm_REF-U_0.2` |
+| 77 | G12 | W2 | `& $Py scripts\confirm\srnet_evaluate.py confirm` | Confirmatory SRNet: P_E, TOST, McNemar | G9, G11 | < 5 min | `results\srnet\confirm_srnet_summary.json` |
+| 78 | G13 | W2 | `& $Py scripts\confirm\apply_rules.py --out results\srnet\decisions_srnet.json` | Decision rules with SRNet included | G12, C8 | < 1 min | `results\srnet\decisions_srnet.json` |
+| 79 | G10 | W3 | `& $PyG scripts\gpu\srnet_train.py --run confirm_PQ-PKS_0.4` | Confirmatory SRNet PQ-PKS 0.4 (150k iterations) | G7a, G7b, C5, serial:G9 | ~8 h (~16 in parallel) | `results\srnet\confirm_PQ-PKS_0.4` |
+| 80 | G11 | W3 | `& $PyG scripts\gpu\srnet_train.py --run confirm_PQ-PKS_0.2` | Confirmatory SRNet PQ-PKS 0.2 (100k iterations) | G10 | ~6 h (~11 in parallel) | `results\srnet\confirm_PQ-PKS_0.2` |
+| 81 | E4 | W4 | `& $Py scripts\experiments\e4_functional.py --size 512 --normal 100000 --tamper 10000 --cover-images 900 --out results\e4_full` | Full-scale E4 on 512x512 images | 1, 2 | 25-35 h | `results\e4_full\e4_summary.json` |

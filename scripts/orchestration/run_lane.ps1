@@ -1,7 +1,7 @@
 ﻿<#
 .SYNOPSIS
-  Runs the steps of one lane (W1..W11) of scripts\orchestration\pipeline.ps1 in order. run_all.ps1 opens each automatic lane
-  in its own PowerShell window; the manual lanes W10 and W11 are started with run_lane.ps1 -Lane W10 (or W11).
+  Runs the steps of one lane (W1..W12) of scripts\orchestration\pipeline.ps1 in order. run_all.ps1 opens each automatic lane
+  in its own PowerShell window; the manual lanes W10, W11 and W12 are started with run_lane.ps1 -Lane W10 (or W11, W12).
 
 .DESCRIPTION
   For each step: skip it if the status file records done/skipped; wait for the dependencies (checked every 30 s); evaluate
@@ -10,7 +10,7 @@
   run_all.ps1 runs it again. The long scripts (C1, C4, C5, 3a, 3e, SRNet) resume from the part already finished.
 #>
 param(
-    [Parameter(Mandatory = $true)][ValidateSet('W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8', 'W9', 'W10', 'W11')][string]$Lane,
+    [Parameter(Mandatory = $true)][ValidateSet('W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8', 'W9', 'W10', 'W11', 'W12')][string]$Lane,
     [string[]]$Only = @(),
     [switch]$DryRun
 )

@@ -48,11 +48,13 @@ powershell -ExecutionPolicy Bypass -File .\run_all.ps1           # resume after 
 `run_all.ps1` checks that the BOSSbase and BOWS2 folders exist and that the drive has at least 250 GB free (stego
 features of step C4 about 110 GB, memmaps about 58 GB, SRNet data about 30 GB), then opens one window per automatic lane
 (W1 to W9) and a monitor window. The steps, their lanes, dependencies, estimated durations and outputs are listed in
-[`steps.md`](steps.md). Lanes W10 and W11 (phase E and the final aggregation) are opened by hand:
+[`steps.md`](steps.md). Lanes W10 and W11 (phase E and the final aggregation) and W12 (post-hoc analyses, which change
+no registered decision) are opened by hand:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts\orchestration\run_lane.ps1 -Lane W10
 powershell -ExecutionPolicy Bypass -File scripts\orchestration\run_lane.ps1 -Lane W11
+powershell -ExecutionPolicy Bypass -File scripts\orchestration\run_lane.ps1 -Lane W12
 ```
 
 Status: `results\run_status\STATUS.md` (rewritten by the monitor at every refresh). Logs: `results\logs\<step>.log`.
@@ -116,7 +118,9 @@ rerun the payload distinguishers on the extracted strings and the E1/E1-bis anal
 | `scripts/pilot_baselines.py`, `scripts/pilot_report.py`, `scripts/pilot_review_v3.py` | pilot rounds on 500-1000 BOSSbase images, including the layout pilot of Section 5 (A8 against the fixed layout A8') |
 | `scripts/experiments/screen_run.py --plan screen`, `scripts/experiments/screen_analyze.py` | screening round on the 2000 pilot and screening covers |
 | `scripts/analysis/budget_v2.py` | bit budget by region, bucket thresholds, receiver trials |
-| `scripts/analysis/alpha_star_thresholds.py` | post-hoc sensitivity of alpha* to the threshold of condition (i), from `results/confirm_v1/summary.json` and `results/srnet/decisions_srnet.json` (Table S12 of the supplementary material; changes no registered decision) |
+| `scripts/analysis/alpha_star_thresholds.py` | post-hoc sensitivity of alpha* to the threshold of condition (i), from `results/confirm_v1/summary.json` and `results/srnet/decisions_srnet.json` (Table S12 of the supplementary material; changes no registered decision; step PH3) |
+| `scripts/confirm/e1_posthoc_null.py` | post-hoc check of the learned distinguisher D4 of E1 under the uniform null: null SD, coverage of the registered interval, null p-values (step PH1; G3 stays failed) |
+| `scripts/confirm/e1_posthoc_refit.py` | post-hoc interval of D4 that refits the five models in every bootstrap replicate, and its coverage under the uniform null (`--quick` gives the run time; step PH2; G3 stays failed) |
 
 ## 8. Determinism
 

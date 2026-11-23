@@ -20,8 +20,8 @@ STEPS = _load("plan_table").parse((ORCH / "pipeline.ps1").read_text(encoding="ut
 
 def test_steps_are_consistent():
     ids = [s["id"] for s in STEPS]
-    assert len(ids) == len(set(ids)) == 78          # lanes W1-W11
-    assert {s["lane"] for s in STEPS} == {"W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8", "W9", "W10", "W11"}
+    assert len(ids) == len(set(ids)) == 81          # lanes W1-W12
+    assert {s["lane"] for s in STEPS} == {"W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8", "W9", "W10", "W11", "W12"}
     pos = {s["id"]: k for k, s in enumerate(STEPS)}
     for s in STEPS:
         assert (ROOT / s["args"][0].replace("\\", "/")).exists(), s["args"][0]   # the called script exists
@@ -65,6 +65,13 @@ def test_steps_are_consistent():
     assert all(not d.lstrip("~").startswith("G") for k in ("PF1", "PF2", "PF3") for d in by[k]["deps"])
     assert by["PF6"]["deps"][0] == "PF5" and by["PF7"]["deps"][0] == "PF6" and by["PF8"]["deps"] == ["PF7"]
     assert "W11" in (ORCH / "run_lane.ps1").read_text(encoding="utf-8-sig")
+    # Manual lane W12 (post hoc, not registered): PH1 null check and PH2 model-refit bootstrap of E1 D4 read only C3;
+    # PH3 (alpha* by threshold) reads the final summary (PF3) and the SRNet decisions (G13).
+    assert "W12" not in text.split("$ManualLanes")[0].split("$LaneTitle = ")[1]
+    assert [s["id"] for s in STEPS if s["lane"] == "W12"] == ["PH1", "PH2", "PH3"]
+    assert by["PH1"]["deps"] == ["C3"] and by["PH2"]["deps"] == ["C3"] and set(by["PH3"]["deps"]) == {"PF3", "G13"}
+    assert "--null-R" in by["PH2"]["args"] and "decisions_srnet.json" in " ".join(by["PH3"]["args"])
+    assert "'W12'" in (ORCH / "run_lane.ps1").read_text(encoding="utf-8-sig")
 
 
 def test_split_hash_is_the_registered_one():

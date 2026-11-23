@@ -279,6 +279,13 @@ def sec_constants() -> list[str]:
         ("pool of uniform-string features", *dp.get("--pool", ("?", PH))),
         ("bootstrap", *code(PH, r"B_BOOT, MARGIN = (\d+)")),
     ])
+    PR = "scripts/confirm/e1_posthoc_refit.py"
+    dr = argdefaults(PR)
+    L += ["### Post-hoc model-refit bootstrap of E1 D4", ""] + table([
+        ("refit bootstrap replicates B", *dr.get("--B", ("?", PR))),
+        ("null data sets R (0: not run)", *dr.get("--null-R", ("?", PR))),
+        ("refit replicates per null data set", *dr.get("--null-B", ("?", PR))),
+    ])
     PW = RES / "e1bis_design" / "power.json"
     pw = jload(PW)
     if pw:

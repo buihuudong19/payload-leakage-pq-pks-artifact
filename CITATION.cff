@@ -29,6 +29,10 @@ authors:
     given-names: Dong
     orcid: "https://orcid.org/0009-0007-6617-8505"
     affiliation: "Ho Chi Minh City University of Technology (HCMUT), Vietnam National University Ho Chi Minh City"
+  - family-names: Nguyen-An
+    given-names: Khuong
+    orcid: "https://orcid.org/0000-0002-9910-6387"
+    affiliation: "Ho Chi Minh City University of Technology (HCMUT), Vietnam National University Ho Chi Minh City"
 preferred-citation:
   type: article
   title: "Structural Payload Leakage in Post-Quantum Public-Key Image Steganography"

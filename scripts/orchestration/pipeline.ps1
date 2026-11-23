@@ -25,6 +25,7 @@ $LaneTitle = [ordered]@{
 $ManualLanes = [ordered]@{
     W10 = 'Phase E (manual): C7 with 10 splits, C9 remeasured, S5 with D_pub of BL3, variant R at 0.04651, JPEG QF95'
     W11 = 'Final aggregation: bootstrap 10^4 + M = 4, 10-split summary as main summary, E5/tables/figures after SRNet'
+    W12 = 'Post-hoc analyses (not registered): E1 D4 null check and model-refit bootstrap, alpha* threshold sensitivity'
 }
 $LaneTitleAll = [ordered]@{}
 foreach ($k in $LaneTitle.Keys) { $LaneTitleAll[$k] = $LaneTitle[$k] }
@@ -234,6 +235,18 @@ $Steps = @(
        Args = @('scripts\orchestration\collect_results.py'); Deps = @('PF6', '~R1'); Est = '< 1 min'; Out = 'results\manuscript_inputs' }
     @{ Id = 'PF8'; Lane = 'W11'; Name = 'Final: regenerate every figure (results\figures)'; Kind = 'py'
        Args = @('scripts\figures\make_all_figures.py'); Deps = @('PF7'); Est = '2-5 min'; Out = 'results\figures_confirm' }
+
+    # ---------------- W12: post-hoc analyses, manual lane ----------------
+    # Not part of the registered protocol; none changes a registered decision (G3 stays failed, alpha* stays at threshold 0.45).
+    # PH1 and PH2 read only results\e1_confirm (C3); PH3 reads the final summary and the SRNet decisions (PF3, G13).
+    @{ Id = 'PH1'; Lane = 'W12'; Name = 'Post hoc: E1 D4 under the uniform null (R = 1000 per variant)'; Kind = 'py'
+       Args = @('scripts\confirm\e1_posthoc_null.py'); Deps = @('C3'); Est = '20-40 min'; Out = 'results\e1_confirm\e1_posthoc_null.json' }
+    @{ Id = 'PH2'; Lane = 'W12'; Name = 'Post hoc: E1 D4 interval with model refitting, and its coverage under the null'; Kind = 'py'
+       Args = @('scripts\confirm\e1_posthoc_refit.py', '--workers', '7', '--B', '2000', '--null-R', '200', '--null-B', '400'); Deps = @('C3')
+       Est = '1-2 h'; Out = 'results\e1_confirm\e1_posthoc_refit.json' }
+    @{ Id = 'PH3'; Lane = 'W12'; Name = 'Post hoc: alpha* at decision thresholds 0.35-0.45 (Table S12)'; Kind = 'py'
+       Args = @('scripts\analysis\alpha_star_thresholds.py', 'results\confirm_v1\summary.json', '--srnet', 'results\srnet\decisions_srnet.json', '--out', 'results\confirm_v1\alpha_star_thresholds.json')
+       Deps = @('PF3', 'G13'); Est = '< 1 min'; Out = 'results\confirm_v1\alpha_star_thresholds.json' }
 
     # ---------------- W2 ----------------
     @{ Id = 'G1'; Lane = 'W2'; Name = 'Install .venv-gpu (torch CUDA)'; Kind = 'ps'
