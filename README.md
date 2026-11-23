@@ -86,6 +86,7 @@ figure of the article that it produces. In short:
 | E7 and ablations (S2-S7) | `scripts/experiments/screen_run.py --plan {e7,ablate,ablate2,ra,confirm_r}`, `scripts/experiments/jpeg_run.py`, `scripts/confirm/phase_d.py` | supplementary tables |
 | Image quality (PSNR, SSIM) | `scripts/analysis/quality_metrics.py` | discussion of image quality |
 | Sensitivity of alpha* to the decision threshold (post hoc) | `scripts/analysis/alpha_star_thresholds.py` | threshold table of the supplementary material |
+| Learned distinguisher D4 of E1 under the null and with model refitting (post hoc) | `scripts/confirm/e1_posthoc_null.py`, `scripts/confirm/e1_posthoc_refit.py` | post-hoc analysis of gate G3 (supplementary material) |
 
 On the measurement machine (Windows 11, AMD Ryzen 7 3700X, 32 GB RAM, NVIDIA GeForce RTX 2060 SUPER 8 GB, about
 250 GB of free disk) the whole confirmatory step is driven by
