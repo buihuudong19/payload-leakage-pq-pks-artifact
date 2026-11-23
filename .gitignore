@@ -1,0 +1,29 @@
+# Environments and tools (recreated by scripts/confirm/setup_confirm.ps1 and scripts/gpu/setup_gpu.ps1)
+.venv/
+.venv-*/
+.tools/
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+.pytest_cache/
+
+# Third-party inputs that are not redistributed
+baselines/bl1_reference/
+third_party/zha25_public_key_discop/PRNEncryption_P256.py
+
+# Images of the external datasets (see docs/data.md); the lists and manifests in data/external are tracked
+data/external/raw/*.zip
+data/external/raw/*.tgz
+data/external/raw/alaska2_tiff512/
+data/external/bossbase/*.pgm
+data/external/bows2/*.pgm
+data/external/alaska2/pgm/
+data/external/_pilot/*.tar
+
+# Everything produced by a run; the measurement data of the article are in the Zenodo dataset record
+results/*
+!results/README.md
+!results/e5_budget/
+results/e5_budget/*
+!results/e5_budget/e5_ladder.json

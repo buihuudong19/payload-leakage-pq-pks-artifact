@@ -1,0 +1,173 @@
+{
+ "description": "Files of src/ and configs/ whose released bytes differ from configs/profile_frozen_v1.json. scripts/freeze_profile.py --check and the frozen-profile checks of the confirmatory scripts accept a file whose SHA-256 equals either the frozen hash or the release hash listed here. See docs/provenance.md.",
+ "frozen_profile": "configs/profile_frozen_v1.json",
+ "frozen_profile_sha256": "10a0e4232803dee3573dbc4659faa20ff11a728064b7a17ec1033bf2e2ec1660",
+ "release": "v1.0.0",
+ "files": {
+  "configs/default.yaml": {
+   "frozen_sha256": "0e8516037c43221f76c5472b20d2960938f33430105420e64a3ccd4f1c7dd404",
+   "release_sha256": "9dddd8ad05a27520f9a15067e7f25d70ab0a7d77fac1b1dd2475535c9f6cac88",
+   "change": "free-text fields and comments translated into English; keys, numbers and structure unchanged"
+  },
+  "configs/g4_reference.json": {
+   "frozen_sha256": "e2bc7a287d57084ccd3d24c7daabdfc03558b782f5ffdc5dbb4859952dfbe281",
+   "release_sha256": "371d039d06e7fe0878c6953fa146c2ef9a10ac5c13af341d8caba54c9dbd613e",
+   "change": "free-text fields and comments translated into English; keys, numbers and structure unchanged"
+  },
+  "configs/g4_srnet_reference.json": {
+   "frozen_sha256": "2b989ca27b9317659962c2b1eac8da76a297a250cbc068128c00297ff5262a99",
+   "release_sha256": "c46dceddc1728af60214a4babfc988b43183f0140bdf65cdfe2534d5c01aafa4",
+   "change": "free-text fields and comments translated into English; keys, numbers and structure unchanged"
+  },
+  "configs/srnet_runs_v1.json": {
+   "frozen_sha256": "679d99e828ee6e03f71175dcb3a1e53992676ebee405bdad163a14aea54614f4",
+   "release_sha256": "7a5f2e8a84f152398e4c0b292f00b9500338c18476ef4c839442d51915ef3583",
+   "change": "free-text fields and comments translated into English; keys, numbers and structure unchanged"
+  },
+  "configs/srnet_runs_v2.json": {
+   "frozen_sha256": "cebae92d9b6b2ed0dbeb6d89cb111475b778fd42f7b28ed5279d8c07fa979449",
+   "release_sha256": "90a4320bf7a39e13dcf068fd8e61843392249e5d7bf4463dda518f448d7e5f7a",
+   "change": "free-text fields and comments translated into English; keys, numbers and structure unchanged"
+  },
+  "src/pqpks/analysis/dpub.py": {
+   "frozen_sha256": "4cb66a827e8deee1e7d0d06c4801fec2f9236c950490f854df20b0d14ab4dbb8",
+   "release_sha256": "4c3e3798e0520e864284e87b82bcec7510e5eb5f20757363c8c68a53817aa520",
+   "change": "comments, docstrings and messages translated into English; code unchanged (identical AST after removing docstrings and string literals)"
+  },
+  "src/pqpks/analysis/ensemble.py": {
+   "frozen_sha256": "64b2fb8b8c461caf489166505d858c62a3516a53a6f4f152fc6195846dec0d39",
+   "release_sha256": "58c5c35ac571c5698863bef0c5d89ec48027f2df8419303d3471bea37512d107",
+   "change": "comments, docstrings and messages translated into English; code unchanged (identical AST after removing docstrings and string literals)"
+  },
+  "src/pqpks/analysis/metrics.py": {
+   "frozen_sha256": "67c58c2e7331275fa8dbd271ab79b89485f86398acb23438559590dc776752f4",
+   "release_sha256": "8907ea3e6fa5f7d7ded8e17a916e83d3653248151f16c9de878dd0d917975b63",
+   "change": "comments, docstrings and messages translated into English; code unchanged (identical AST after removing docstrings and string literals)"
+  },
+  "src/pqpks/analysis/spam.py": {
+   "frozen_sha256": "650c8287fad32b5ed3b6aeb427613ca3f9ac65c2f2034e215d5a76642d479b40",
+   "release_sha256": "7acfaf21f34a1870797a43eba102deb6edc3777dbf107c315ae8b4f6b9d50202",
+   "change": "comments, docstrings and messages translated into English; code unchanged (identical AST after removing docstrings and string literals)"
+  },
+  "src/pqpks/analysis/stats.py": {
+   "frozen_sha256": "f2be4fab5c893eef552a308f9e067af6fac43917072e9e5d85258a0d354cf112",
+   "release_sha256": "89fc75e58958d9054aab1403dc27901f8925a8e44f662c3e8cf1e72b962f858e",
+   "change": "comments, docstrings and messages translated into English; code unchanged (identical AST after removing docstrings and string literals)"
+  },
+  "src/pqpks/crypto/fips203.py": {
+   "frozen_sha256": "b1aa42286b0000e2e71a01e375eca4e9f13eaa2ac1461059fd348df2bf8f3bcc",
+   "release_sha256": "853fd2e8de6d0b66ae101cdb51ba02779aee5942c23ed9bf75eb5313bfc36daf",
+   "change": "comments, docstrings and messages translated into English; code unchanged (identical AST after removing docstrings and string literals)"
+  },
+  "src/pqpks/crypto/framing.py": {
+   "frozen_sha256": "f77db740d2758976524ac885bd875211374fc18290a432569a329e9a0163e321",
+   "release_sha256": "ff4cf59e26f8f28ccc87978eb2cb4cb7870269a4be4af84167d6af92c21a8029",
+   "change": "comments, docstrings and messages translated into English; code unchanged (identical AST after removing docstrings and string literals)"
+  },
+  "src/pqpks/crypto/hpke.py": {
+   "frozen_sha256": "d278107d1a9b5ad8ee7c376cb95c4c1d2a4095bfa4b92fec48533fff63267cb5",
+   "release_sha256": "2b130f3bfc8f141fece9fa2b2ee7ef725cd293921e3a03b3b25cda23da906f75",
+   "change": "comments, docstrings and messages translated into English; code unchanged (identical AST after removing docstrings and string literals)"
+  },
+  "src/pqpks/crypto/kemeleon.py": {
+   "frozen_sha256": "eb3f8c33241951f335f5adaee060d11175befce34c0eb139523ec71ab2b36092",
+   "release_sha256": "1b56fd581a186cf483475df86d910a3cf93d5653b83719fedb6478e253e17ac8",
+   "change": "comments, docstrings and messages translated into English; code unchanged (identical AST after removing docstrings and string literals)"
+  },
+  "src/pqpks/crypto/profile.py": {
+   "frozen_sha256": "4e2dda3b26478ea1c1cbbb66e772c127a10e8c64a48e8889ac9d0d51b3101d3e",
+   "release_sha256": "a2a0848a19973ac08ed16b377c6e18d295d058ddac7b0b2d02b649d5055f58cf",
+   "change": "comments, docstrings and messages translated into English; code unchanged (identical AST after removing docstrings and string literals)"
+  },
+  "src/pqpks/crypto/sig.py": {
+   "frozen_sha256": "61dee2ce83ab1f1e208d30f8e6191b5400ab33e78b1d024c8428e1beaca90a6f",
+   "release_sha256": "3279059a3c05756dc1d5a53840180e624ea9cccc6a8aa2e55ee2a0c4774c2665",
+   "change": "comments, docstrings and messages translated into English; code unchanged (identical AST after removing docstrings and string literals)"
+  },
+  "src/pqpks/crypto/zha25.py": {
+   "frozen_sha256": "98624e24ac42e441978c9e5d2f6981ed51b1d200336f89c69ec26a856c81de51",
+   "release_sha256": "f5d33037ff83606afc189665287bd17393a6cefcc9a14896684ef58d27ecd743",
+   "change": "comments and docstrings translated; a missing third-party module raises MissingResource; the loading and SHA-256 check are otherwise unchanged"
+  },
+  "src/pqpks/data.py": {
+   "frozen_sha256": "8808b28cbab36f1a6a39775078474824e857a0125b74a5e9921c40c49329f951",
+   "release_sha256": "27346a016807bcbdac3476dee0ae36298aaded53213e85b6328607ef7f89c874",
+   "change": "comments and docstrings translated; the sample images of the unit tests and of the demonstration script are replaced by deterministic synthetic covers and binary messages (cover_pool, test_messages); a missing BOSSbase or BOWS2 folder raises MissingResource (a FileNotFoundError); the BOSSbase, BOWS2 and ALASKA2 loaders used by the experiments are otherwise unchanged"
+  },
+  "src/pqpks/experiment/__init__.py": {
+   "frozen_sha256": "f7efa270ba70db550b513b64b69168cb8372b2ddea3592cead0ffef26d11ac23",
+   "release_sha256": "b0b1f2314960dbf436d848849d65348be2d35110bac59827b52bb771629c5996",
+   "change": "comments, docstrings and messages translated into English; code unchanged (identical AST after removing docstrings and string literals)"
+  },
+  "src/pqpks/experiment/profiles.py": {
+   "frozen_sha256": "161e3043cb77f0f39f8c157334e6e554b47ec246b549a4a8cebe32cc1fb148d4",
+   "release_sha256": "bf1861100df7bab7a820d30f267e2c359cf4fff8ce0b5f883a7d87f37f7fa230",
+   "change": "comments, docstrings and messages translated into English; code unchanged (identical AST after removing docstrings and string literals)"
+  },
+  "src/pqpks/experiment/references.py": {
+   "frozen_sha256": "fae7f83e1159b24ff13d8c376f4c2b0e52aac01fb9575d126abbdc66d16c764e",
+   "release_sha256": "5fce1ae1fe1447400b3d5c194c0d51ddb9eb17adb5f7b59be0984dee33b34627",
+   "change": "comments, docstrings and messages translated into English; code unchanged (identical AST after removing docstrings and string literals)"
+  },
+  "src/pqpks/params.py": {
+   "frozen_sha256": "e3a580c1db6c1310334afb442246a16ec84d75b6167134a14aa30fc9a4ca3579",
+   "release_sha256": "3312a7d61470a064a4e7e9d2a5817c6641db90424592e884e4e483bc8b2fa84f",
+   "change": "comments, docstrings and messages translated into English; code unchanged (identical AST after removing docstrings and string literals)"
+  },
+  "src/pqpks/steganalysis/__init__.py": {
+   "frozen_sha256": "6b867608e89d06e465f2ebbadc4ca2e93324fe6ebcd1f5b7ad2af857c5a7c27b",
+   "release_sha256": "726f11b7dbf01bb180941bc86de0b1c7c78b800b212dca591322c281b496acd4",
+   "change": "comments, docstrings and messages translated into English; code unchanged (identical AST after removing docstrings and string literals)"
+  },
+  "src/pqpks/steganalysis/srnet.py": {
+   "frozen_sha256": "a92d2a2e4c79ca8b70043124d07ab02e5914c2aaf02ed1403c64413ae49d3456",
+   "release_sha256": "25a49f57d91c7c1ac3310da1fbea4a32337a0675483bd7092edc7f196d106905",
+   "change": "comments, docstrings and messages translated into English; code unchanged (identical AST after removing docstrings and string literals)"
+  },
+  "src/pqpks/stego/costs.py": {
+   "frozen_sha256": "c5c23d6367683f8b896fba26705f7321f7fbb4ff0f779b43538bb16481a9dd27",
+   "release_sha256": "1bdf8e4cdeabbedc7e0f225b2fc6992a9972cae6052c02956f3fb38bf6fd6301",
+   "change": "comments, docstrings and messages translated into English; code unchanged (identical AST after removing docstrings and string literals)"
+  },
+  "src/pqpks/stego/mpvd.py": {
+   "frozen_sha256": "4926935abab79168f46e9b0866204b18b31739cf93c44295fd909573618fff52",
+   "release_sha256": "0ea997ac210dfb27e975f19df538df41bf205a4b5aa9a4a92069512fe11ef6de",
+   "change": "comments, docstrings and messages translated into English; code unchanged (identical AST after removing docstrings and string literals)"
+  },
+  "src/pqpks/stego/partition.py": {
+   "frozen_sha256": "f45f1bb25f7e7f3cfc8efdb2ce376425387938b797a7540a2715d1c48c634216",
+   "release_sha256": "06bc7f26617279f65b1afe86811933385583f492eb091035f418219d8f53f3e0",
+   "change": "comments, docstrings and messages translated into English; code unchanged (identical AST after removing docstrings and string literals)"
+  },
+  "src/pqpks/stego/stc.py": {
+   "frozen_sha256": "dd84f35aa4c94b39f223bf757ec3e95ad9bd5b1813b59b7c5394e4988b8f4d6e",
+   "release_sha256": "fdd3d069c2d91d54202842f363d95b43f0c8f6e710620f5c2ed653dbb2120f2a",
+   "change": "comments, docstrings and messages translated into English; code unchanged (identical AST after removing docstrings and string literals)"
+  },
+  "src/pqpks/stego/two_stage.py": {
+   "frozen_sha256": "18d4ec5a64f781db8bd04b7f9e50c4a74b1027e8abf7362b0b8638c0c670939f",
+   "release_sha256": "4c2121ea7c6b2d3ba50b194c612d74c195ecb84a9a4c83528c6d689ae498cc41",
+   "change": "comments, docstrings and messages translated into English; code unchanged (identical AST after removing docstrings and string literals)"
+  },
+  "src/pqpks/systems/__init__.py": {
+   "frozen_sha256": "91b65c41ae311703cd9b88730a3f1b5af864f381d9bc74477851810671541acc",
+   "release_sha256": "65be4809fb4909d8f28dc9762294b6f8ebc0376aca123625b0bee16f2611fd5d",
+   "change": "comments, docstrings and messages translated into English; code unchanged (identical AST after removing docstrings and string literals)"
+  },
+  "src/pqpks/systems/base.py": {
+   "frozen_sha256": "df235fcf4691f8d8e453eb76c136e5771baa728c738fec286ae06697441ebf3a",
+   "release_sha256": "e8ab927f0c38df9c2003ba41e069e8bf4d7d8d11e416cd947bd0c5be4a428c3f",
+   "change": "comments, docstrings and messages translated into English; code unchanged (identical AST after removing docstrings and string literals)"
+  },
+  "src/pqpks/systems/mpvd_systems.py": {
+   "frozen_sha256": "cbecc944dea773ccbf7e17f93b2ea6eed67d7b820331f761545b47a40bda1476",
+   "release_sha256": "83cd38c20086a61dc16b697cc9ef9b2826101170164f5f7b70b8b0140c740435",
+   "change": "comments and docstrings translated; the BL1 reference code is looked up in baselines/bl1_reference or PQPKS_BL1_REFERENCE_DIR and a missing copy raises MissingResource; BL1 and BL2 are otherwise unchanged"
+  },
+  "src/pqpks/systems/stc_system.py": {
+   "frozen_sha256": "6c46aeb7ade92fb6c877b5809d2e9d1bf43763e53c397ccc4b8a9012a5ecbce1",
+   "release_sha256": "f4e87ba10d48416ad9022cb5fea9e67fdddf4baff6f4ab6ca29fa7e4817e56bd",
+   "change": "comments, docstrings and messages translated into English; code unchanged (identical AST after removing docstrings and string literals)"
+  }
+ }
+}

@@ -1,0 +1,231 @@
+{
+ "note": "Published figures used for gate G4. A row is added only after checking the source; the table is stated.",
+ "tolerance": 0.02,
+ "primary": "WIFS2016",
+ "sources": {
+  "WIFS2016": "K. Chen, W. Zhang, H. Zhou, N. Yu, G. Feng, 'Defining cost functions for adaptive steganography at the microscale', IEEE WIFS 2016, Table I (rows HILL and UNIWARD = S-UNIWARD, original cost functions). Protocol: BOSSbase 1.01, 10 000 images 512x512; mean +- s.d. over 10 random 5000/5000 train/test splits; FLD ensemble with default settings; P_E = min 1/2(P_FA + P_MD); embedding simulated at the payload-distortion bound (payload-limited sender).",
+  "EURASIP2014": "V. Holub, J. Fridrich, T. Denemark, 'Universal distortion function for steganography in an arbitrary domain', EURASIP J. Inf. Secur. 2014:1, Table 1: S-UNIWARD 0.4 bpp, SRM, E_OOB = 0.1981 (8-tap Daubechies, sigma = 1). Used only as corroboration of WIFS2016 (0.2031).",
+  "arXiv1705.08616": "Table 1, column 'exp. (standard)', out-of-bag error at 0.3 bpp. Superseded on 2026-11-06: the paper does not state the split, the ensemble settings or the error definition, and its values for HILL and S-UNIWARD lie 0.05 above two sources with a stated protocol."
+ },
+ "references": [
+  {
+   "method": "hill",
+   "alpha": 0.05,
+   "features": "SRM",
+   "P_E": 0.4688,
+   "sd": 0.0023,
+   "source": "WIFS2016"
+  },
+  {
+   "method": "hill",
+   "alpha": 0.1,
+   "features": "SRM",
+   "P_E": 0.434,
+   "sd": 0.0034,
+   "source": "WIFS2016"
+  },
+  {
+   "method": "hill",
+   "alpha": 0.2,
+   "features": "SRM",
+   "P_E": 0.3632,
+   "sd": 0.0025,
+   "source": "WIFS2016"
+  },
+  {
+   "method": "hill",
+   "alpha": 0.3,
+   "features": "SRM",
+   "P_E": 0.2996,
+   "sd": 0.0023,
+   "source": "WIFS2016"
+  },
+  {
+   "method": "hill",
+   "alpha": 0.4,
+   "features": "SRM",
+   "P_E": 0.2482,
+   "sd": 0.0022,
+   "source": "WIFS2016"
+  },
+  {
+   "method": "hill",
+   "alpha": 0.5,
+   "features": "SRM",
+   "P_E": 0.2038,
+   "sd": 0.0017,
+   "source": "WIFS2016"
+  },
+  {
+   "method": "suniward",
+   "alpha": 0.05,
+   "features": "SRM",
+   "P_E": 0.4542,
+   "sd": 0.0024,
+   "source": "WIFS2016"
+  },
+  {
+   "method": "suniward",
+   "alpha": 0.1,
+   "features": "SRM",
+   "P_E": 0.4021,
+   "sd": 0.0024,
+   "source": "WIFS2016"
+  },
+  {
+   "method": "suniward",
+   "alpha": 0.2,
+   "features": "SRM",
+   "P_E": 0.3199,
+   "sd": 0.0026,
+   "source": "WIFS2016"
+  },
+  {
+   "method": "suniward",
+   "alpha": 0.3,
+   "features": "SRM",
+   "P_E": 0.2574,
+   "sd": 0.0017,
+   "source": "WIFS2016"
+  },
+  {
+   "method": "suniward",
+   "alpha": 0.4,
+   "features": "SRM",
+   "P_E": 0.2031,
+   "sd": 0.0026,
+   "source": "WIFS2016"
+  },
+  {
+   "method": "suniward",
+   "alpha": 0.5,
+   "features": "SRM",
+   "P_E": 0.164,
+   "sd": 0.0025,
+   "source": "WIFS2016"
+  }
+ ],
+ "references_maxSRMd2": [
+  {
+   "method": "hill",
+   "alpha": 0.05,
+   "features": "maxSRMd2",
+   "P_E": 0.4244,
+   "sd": 0.0023,
+   "source": "WIFS2016"
+  },
+  {
+   "method": "hill",
+   "alpha": 0.1,
+   "features": "maxSRMd2",
+   "P_E": 0.3765,
+   "sd": 0.0031,
+   "source": "WIFS2016"
+  },
+  {
+   "method": "hill",
+   "alpha": 0.2,
+   "features": "maxSRMd2",
+   "P_E": 0.312,
+   "sd": 0.0029,
+   "source": "WIFS2016"
+  },
+  {
+   "method": "hill",
+   "alpha": 0.3,
+   "features": "maxSRMd2",
+   "P_E": 0.2628,
+   "sd": 0.0022,
+   "source": "WIFS2016"
+  },
+  {
+   "method": "hill",
+   "alpha": 0.4,
+   "features": "maxSRMd2",
+   "P_E": 0.218,
+   "sd": 0.0025,
+   "source": "WIFS2016"
+  },
+  {
+   "method": "hill",
+   "alpha": 0.5,
+   "features": "maxSRMd2",
+   "P_E": 0.1853,
+   "sd": 0.0024,
+   "source": "WIFS2016"
+  },
+  {
+   "method": "suniward",
+   "alpha": 0.05,
+   "features": "maxSRMd2",
+   "P_E": 0.4189,
+   "sd": 0.0024,
+   "source": "WIFS2016"
+  },
+  {
+   "method": "suniward",
+   "alpha": 0.1,
+   "features": "maxSRMd2",
+   "P_E": 0.3651,
+   "sd": 0.0038,
+   "source": "WIFS2016"
+  },
+  {
+   "method": "suniward",
+   "alpha": 0.2,
+   "features": "maxSRMd2",
+   "P_E": 0.2896,
+   "sd": 0.0028,
+   "source": "WIFS2016"
+  },
+  {
+   "method": "suniward",
+   "alpha": 0.3,
+   "features": "maxSRMd2",
+   "P_E": 0.235,
+   "sd": 0.0021,
+   "source": "WIFS2016"
+  },
+  {
+   "method": "suniward",
+   "alpha": 0.4,
+   "features": "maxSRMd2",
+   "P_E": 0.1913,
+   "sd": 0.0026,
+   "source": "WIFS2016"
+  },
+  {
+   "method": "suniward",
+   "alpha": 0.5,
+   "features": "maxSRMd2",
+   "P_E": 0.1556,
+   "sd": 0.0021,
+   "source": "WIFS2016"
+  }
+ ],
+ "corroboration": [
+  {
+   "method": "suniward",
+   "alpha": 0.4,
+   "features": "SRM",
+   "E_OOB": 0.1981,
+   "source": "EURASIP2014"
+  }
+ ],
+ "superseded": [
+  {
+   "method": "hill",
+   "alpha": 0.3,
+   "features": "SRM",
+   "P_E": 0.3512,
+   "source": "arXiv1705.08616"
+  },
+  {
+   "method": "suniward",
+   "alpha": 0.3,
+   "features": "SRM",
+   "P_E": 0.3091,
+   "source": "arXiv1705.08616"
+  }
+ ]
+}

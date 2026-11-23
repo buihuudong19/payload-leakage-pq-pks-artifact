@@ -1,0 +1,47 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the article in preferred-citation."
+type: software
+title: "Code for: Structural Payload Leakage in Post-Quantum Public-Key Image Steganography"
+version: "1.0.0"
+date-released: "2026-11-24"
+license: MIT
+repository-code: "https://github.com/buihuudong19/payload-leakage-pq-pks-artifact"
+keywords:
+  - steganography
+  - public-key steganography
+  - post-quantum cryptography
+  - ML-KEM
+  - Kemeleon
+  - steganalysis
+authors:
+  - family-names: Bui-Huu
+    given-names: Dong
+    orcid: "https://orcid.org/0009-0007-6617-8505"
+    affiliation: "Ho Chi Minh City University of Technology (HCMUT), Vietnam National University Ho Chi Minh City"
+preferred-citation:
+  type: article
+  title: "Structural Payload Leakage in Post-Quantum Public-Key Image Steganography"
+  notes: "Manuscript submitted to Computers and Electrical Engineering."
+  authors:
+    - family-names: Bui-Huu
+      given-names: Dong
+      orcid: "https://orcid.org/0009-0007-6617-8505"
+    - family-names: Nguyen-An
+      given-names: Khuong
+      orcid: "https://orcid.org/0000-0002-9910-6387"
+  year: 2026
+references:
+  - type: data
+    title: "pq-pks-raw-data-v1: measurement data for \"Structural Payload Leakage in Post-Quantum Public-Key Image Steganography\""
+    authors:
+      - family-names: Bui-Huu
+        given-names: Dong
+        orcid: "https://orcid.org/0009-0007-6617-8505"
+      - family-names: Nguyen-An
+        given-names: Khuong
+        orcid: "https://orcid.org/0000-0002-9910-6387"
+    version: "1.0"
+    doi: "10.5281/zenodo.24462430"
+    url: "https://doi.org/10.5281/zenodo.24462430"
+    license: CC-BY-4.0
+    year: 2026

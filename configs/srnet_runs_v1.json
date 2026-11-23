@@ -1,0 +1,44 @@
+{
+ "version": "srnet_runs_v1",
+ "registered": "2026-11-06, before any E2/E3 stego image and before any SRNet training",
+ "common": {
+  "batch_pairs": 16,
+  "optimizer": {"name": "Adamax", "betas": [0.9, 0.999], "eps": 1e-08},
+  "weight_decay_conv": 0.0002,
+  "augment": "the same random rotation by k*90 degrees and flip for both images of each cover-stego pair",
+  "amp": true,
+  "val_every": 875,
+  "monitor_every": 8750,
+  "seed": 1,
+  "score": "logit(stego) - logit(cover)"
+ },
+ "datasets": {
+  "g4": {"dir": "results/srnet/data_g4", "size": 256,
+         "sets": ["cover", "hill_0.4", "hill_0.2", "suniward_0.4", "suniward_0.2"]},
+  "confirm": {"dir": "results/srnet/data_confirm", "size": 512,
+              "sets": ["cover", "a0.4_PQ-PKS", "a0.4_REF-U", "a0.2_PQ-PKS", "a0.2_REF-U"]}
+ },
+ "runs": {
+  "g4_hill_0.4":     {"data": "g4", "stego": "hill_0.4", "init": null,
+                      "phases": [[400000, 0.001], [100000, 0.0001]], "select_last": 100000, "train_crop": null},
+  "g4_hill_0.2":     {"data": "g4", "stego": "hill_0.2", "init": "g4_hill_0.4",
+                      "phases": [[50000, 0.001], [50000, 0.0001]], "select_last": 50000, "train_crop": null},
+  "g4_suniward_0.4": {"data": "g4", "stego": "suniward_0.4", "init": null,
+                      "phases": [[400000, 0.001], [100000, 0.0001]], "select_last": 100000, "train_crop": null},
+  "g4_suniward_0.2": {"data": "g4", "stego": "suniward_0.2", "init": "g4_suniward_0.4",
+                      "phases": [[50000, 0.001], [50000, 0.0001]], "select_last": 50000, "train_crop": null},
+  "confirm_REF-U_0.4":  {"data": "confirm", "stego": "a0.4_REF-U", "init": "g4_hill_0.4", "pair_with": "a0.4_PQ-PKS",
+                         "phases": [[100000, 0.001], [50000, 0.0001]], "select_last": 50000, "train_crop": 256},
+  "confirm_PQ-PKS_0.4": {"data": "confirm", "stego": "a0.4_PQ-PKS", "init": "g4_hill_0.4", "pair_with": "a0.4_REF-U",
+                         "phases": [[100000, 0.001], [50000, 0.0001]], "select_last": 50000, "train_crop": 256},
+  "confirm_REF-U_0.2":  {"data": "confirm", "stego": "a0.2_REF-U", "init": "confirm_REF-U_0.4", "pair_with": "a0.2_PQ-PKS",
+                         "phases": [[50000, 0.001], [50000, 0.0001]], "select_last": 50000, "train_crop": 256},
+  "confirm_PQ-PKS_0.2": {"data": "confirm", "stego": "a0.2_PQ-PKS", "init": "confirm_PQ-PKS_0.4", "pair_with": "a0.2_REF-U",
+                         "phases": [[50000, 0.001], [50000, 0.0001]], "select_last": 50000, "train_crop": 256}
+ },
+ "sequences": {
+  "g4": ["g4_hill_0.4", "g4_hill_0.2", "g4_suniward_0.4", "g4_suniward_0.2"],
+  "confirm": ["confirm_REF-U_0.4", "confirm_PQ-PKS_0.4", "confirm_REF-U_0.2", "confirm_PQ-PKS_0.2"]
+ },
+ "confirm_requires": "G4_SRNet_pass = true trong results/srnet/g4_srnet_summary.json"
+}

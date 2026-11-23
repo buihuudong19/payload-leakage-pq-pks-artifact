@@ -1,0 +1,14 @@
+# Public parameters pp (must match src/pqpks/params.py::PublicParams)
+context: "PQPKS-v1"
+stc_h: 10
+alpha0: 0.15                 # public fraction of stage 1 under the fixed layout A8' (layout A8 derives it from the bucket)
+buckets: [256, 512, 1024, 2048, 4096, 8192]
+window: 8
+max_open_sessions: 16
+session_len: 8
+hpke:
+  kem: ML-KEM-768 (0x0041, draft-ietf-hpke-pq-05)
+  kdf: HKDF-SHA256 (0x0001)
+  aead: ChaCha20-Poly1305 (0x0003)
+signature: ML-DSA-44 (FIPS 204), ctx "PQPKS-v1"
+cost: hill

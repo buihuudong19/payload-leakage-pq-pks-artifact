@@ -1,0 +1,25 @@
+{
+ "version": "g4_srnet_reference_v1",
+ "registered": "2026-11-06, before any SRNet data",
+ "source": "[BCF19] M. Boroumand, M. Chen, J. Fridrich, Deep Residual Network for Steganalysis of Digital Images, IEEE TIFS 14(5), 2019, DOI 10.1109/TIFS.2018.2871749. Values from the authors' version: http://ws.binghamton.edu/fridrich/Research/SRNet.pdf, Table I (SRNet row). Still to be checked against the IEEE version of record.",
+ "protocol": {
+  "images": "BOSSbase 1.01 and BOWS2, 512x512, downsampled to 256x256 with MATLAB imresize, default settings",
+  "split": "train 4000 BOSSbase + 10000 BOWS2 (14000 pairs), validation 1000 BOSSbase, test 5000 BOSSbase; one split",
+  "P_E": "min over P_FA of 1/2 (P_FA + P_MD) on the test set",
+  "training": "Adamax, 16 pairs per batch; 0.4 bpp from scratch: 400k iterations at lr 1e-3, then 100k iterations at lr 1e-4; lower rates: curriculum from the 0.4 bpp model; the snapshot with the highest validation accuracy in the final window is kept",
+  "between_split_sd": "0.0035 (HILL 0.3 bpp, 5 splits, [BCF19] Section IV)"
+ },
+ "tolerance": 0.02,
+ "references": [
+  {"method": "suniward", "alpha": 0.1, "P_E": 0.3104},
+  {"method": "suniward", "alpha": 0.2, "P_E": 0.2090},
+  {"method": "suniward", "alpha": 0.3, "P_E": 0.1432},
+  {"method": "suniward", "alpha": 0.4, "P_E": 0.1023},
+  {"method": "suniward", "alpha": 0.5, "P_E": 0.0705},
+  {"method": "hill", "alpha": 0.1, "P_E": 0.3134},
+  {"method": "hill", "alpha": 0.2, "P_E": 0.2353},
+  {"method": "hill", "alpha": 0.3, "P_E": 0.1830},
+  {"method": "hill", "alpha": 0.4, "P_E": 0.1414},
+  {"method": "hill", "alpha": 0.5, "P_E": 0.1151}
+ ]
+}

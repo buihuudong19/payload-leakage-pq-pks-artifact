@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pqpks"
+version = "1.0.0"
+description = "PQ-PKS: post-quantum public-key image steganography with pseudorandom payloads (research code)"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Dong Bui-Huu" }, { name = "Khuong Nguyen-An" }]
+requires-python = ">=3.11"
+dependencies = ["numpy", "scipy", "pillow", "numba", "cryptography>=46", "conseal", "pymonocypher", "pyyaml"]
+
+[project.optional-dependencies]
+test = ["pytest", "pyhpke"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+pqpks = ["stego/stc_table_h10.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

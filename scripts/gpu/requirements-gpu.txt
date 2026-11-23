@@ -1,0 +1,6 @@
+# Separate GPU environment (.venv-gpu, Python 3.12) for SRNet, independent of the main environment of the project.
+# torch comes from the CUDA 12.6 index of PyTorch (driver 566.26 supports up to CUDA 12.7); the other two packages from PyPI.
+# setup_gpu.ps1 installs torch and the other packages with two separate commands and records the installed versions in requirements-gpu.lock.
+torch==2.8.0          # +cu126 build, win_amd64, cp312
+numpy==2.2.6
+pillow==11.3.0

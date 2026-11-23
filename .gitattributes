@@ -1,0 +1,15 @@
+# Line endings: LF for every text file, CRLF for Windows scripts. The hashes recorded in configs/profile_frozen_v1.json
+# were computed on LF files, so a checkout must not convert them.
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.cmd text eol=crlf
+*.sh text eol=lf
+
+# Files whose SHA-256 is registered: keep the bytes exactly as committed (split_v1.json uses CRLF).
+configs/splits/** -text
+data/external/** -text
+
+*.png binary
+*.pdf binary
+*.npy binary
+*.npz binary
