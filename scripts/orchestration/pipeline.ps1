@@ -243,8 +243,8 @@ $Steps = @(
        Args = @('scripts\confirm\e1_posthoc_null.py'); Deps = @('C3'); Est = '20-40 min'; Out = 'results\e1_confirm\e1_posthoc_null.json' }
     @{ Id = 'PH2'; Lane = 'W12'; Name = 'Post hoc: E1 D4 interval with model refitting, and its coverage under the null'; Kind = 'py'
        Args = @('scripts\confirm\e1_posthoc_refit.py', '--workers', '7', '--B', '2000', '--null-R', '200', '--null-B', '400'); Deps = @('C3')
-       Est = '1-2 h'; Out = 'results\e1_confirm\e1_posthoc_refit.json' }
-    @{ Id = 'PH3'; Lane = 'W12'; Name = 'Post hoc: alpha* at decision thresholds 0.35-0.45 (Table S12)'; Kind = 'py'
+       Est = '4-5 h'; Out = 'results\e1_confirm\e1_posthoc_refit.json' }
+    @{ Id = 'PH3'; Lane = 'W12'; Name = 'Post hoc: alpha* at decision thresholds 0.35-0.45 (Table S13)'; Kind = 'py'
        Args = @('scripts\analysis\alpha_star_thresholds.py', 'results\confirm_v1\summary.json', '--srnet', 'results\srnet\decisions_srnet.json', '--out', 'results\confirm_v1\alpha_star_thresholds.json')
        Deps = @('PF3', 'G13'); Est = '< 1 min'; Out = 'results\confirm_v1\alpha_star_thresholds.json' }
 

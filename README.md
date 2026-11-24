@@ -13,9 +13,11 @@ Kemeleon so that the extracted string is close to uniform. The code implements P
 systems of the comparison, the wardens, and every experiment of the article (E1 to E7, the ablations and
 the SRNet runs).
 
-Release `v1.0.0` is the version used in the article; it is archived on Zenodo at https://doi.org/10.5281/zenodo.24465713
-(the badge above, https://doi.org/10.5281/zenodo.24465712, always points to the latest version). The raw measurement
-data are archived separately at https://doi.org/10.5281/zenodo.24462430 (see [Measurement data](#measurement-data)).
+Release `v1.0.1` is the version used in the article. The badge above (concept DOI https://doi.org/10.5281/zenodo.24465712)
+always points to the latest version; release `v1.0.0` is https://doi.org/10.5281/zenodo.24465713. Release `v1.0.1` adds the
+post hoc lane W12 (`scripts/confirm/e1_posthoc_refit.py` and its tests) and documentation updates; nothing in `src/` or
+`configs/` changed. The raw measurement data are archived separately at https://doi.org/10.5281/zenodo.24487851
+(version 1.1; see [Measurement data](#measurement-data)).
 
 > **Research code.** The Kemeleon encoding is implemented with Python big integers and is not constant time.
 > Do not use this code to protect real communication.
@@ -110,7 +112,8 @@ each edited file to its frozen hash, and `docs/provenance.md` describes the chec
 
 The raw measurement data of the article (per-cell warden scores, publicly extracted strings, E1 and E1-bis syndromes,
 SRNet scores, result summaries) form the dataset `pq-pks-raw-data-v1`, archived on Zenodo under CC BY 4.0:
-https://doi.org/10.5281/zenodo.24462430. The record holds three archives with the same root folder `pq-pks-raw-data-v1/`:
+https://doi.org/10.5281/zenodo.24487851 (version 1.1, which adds the post hoc refit results of PH2; version 1.0:
+https://doi.org/10.5281/zenodo.24462430). The record holds three archives with the same root folder `pq-pks-raw-data-v1/`:
 `pq-pks-raw-data-v1-core.zip` (summaries, per-cover warden scores, SRNet models; enough to regenerate every table and
 figure), `pq-pks-raw-data-v1-strings.zip` (publicly extracted strings) and `pq-pks-raw-data-v1-e1-syndromes.zip` (E1 and
 E1-bis cover syndromes). Extracting all three into one folder gives the complete `results/` tree.

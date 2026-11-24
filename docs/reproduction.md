@@ -101,7 +101,7 @@ article.
 | `results/figures/`, `results/figures_confirm/` | PF8 (`scripts/figures/make_all_figures.py`) | figures |
 
 These outputs, together with the per-cell warden scores and the extracted strings, are archived in the dataset record
-`pq-pks-raw-data-v1` (https://doi.org/10.5281/zenodo.24462430). The tables and figures can be regenerated from its core archive
+`pq-pks-raw-data-v1` (version 1.1, https://doi.org/10.5281/zenodo.24487851). The tables and figures can be regenerated from its core archive
 (`pq-pks-raw-data-v1-core.zip`) alone, without rerunning the measurements: copy its `results/` folder into the
 repository and run steps R0, PF5 and PF8. The other two archives (`-strings.zip`, `-e1-syndromes.zip`) are needed only to
 rerun the payload distinguishers on the extracted strings and the E1/E1-bis analyses.
@@ -118,9 +118,9 @@ rerun the payload distinguishers on the extracted strings and the E1/E1-bis anal
 | `scripts/pilot_baselines.py`, `scripts/pilot_report.py`, `scripts/pilot_review_v3.py` | pilot rounds on 500-1000 BOSSbase images, including the layout pilot of Section 5 (A8 against the fixed layout A8') |
 | `scripts/experiments/screen_run.py --plan screen`, `scripts/experiments/screen_analyze.py` | screening round on the 2000 pilot and screening covers |
 | `scripts/analysis/budget_v2.py` | bit budget by region, bucket thresholds, receiver trials |
-| `scripts/analysis/alpha_star_thresholds.py` | post-hoc sensitivity of alpha* to the threshold of condition (i), from `results/confirm_v1/summary.json` and `results/srnet/decisions_srnet.json` (Table S12 of the supplementary material; changes no registered decision; step PH3) |
+| `scripts/analysis/alpha_star_thresholds.py` | post-hoc sensitivity of alpha* to the threshold of condition (i), from `results/confirm_v1/summary.json` and `results/srnet/decisions_srnet.json` (Table S13 of the supplementary material; changes no registered decision; step PH3) |
 | `scripts/confirm/e1_posthoc_null.py` | post-hoc check of the learned distinguisher D4 of E1 under the uniform null: null SD, coverage of the registered interval, null p-values (step PH1; G3 stays failed) |
-| `scripts/confirm/e1_posthoc_refit.py` | post-hoc interval of D4 that refits the five models in every bootstrap replicate, and its coverage under the uniform null (`--quick` gives the run time; step PH2; G3 stays failed) |
+| `scripts/confirm/e1_posthoc_refit.py` | post-hoc interval of D4 that refits the five models in every bootstrap replicate, and its coverage under the uniform null (Table S9 of the supplementary material; `--quick` gives the run time; step PH2; G3 stays failed) |
 
 ## 8. Determinism
 
