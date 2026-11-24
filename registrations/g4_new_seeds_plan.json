@@ -1,0 +1,15 @@
+{
+ "title": "Gate G4 for SRM on fresh seeds",
+ "registered": "2026-11-24, after review (finding F05 of the 24 Nov 2026 regression audit); fixed before any of these seeds is run",
+ "context": "The SRM reference values of G4 were replaced on 6 Nov 2026 after two seeds of HILL at 0.3 bpp had been seen (supplementary Table S6, D1). Seeds 0-2 were used by the registered G4 (results/g4/g4_summary.json).",
+ "features": "results/g4/feat of g4_calibrate.py (10 000 BOSSbase 1.01 images, SRM 34 671 dimensions; stego from the conseal simulator with seed = image index); not re-extracted",
+ "methods": ["hill", "suniward"],
+ "alphas": [0.3, 0.1],
+ "seeds": [100, 101, 102, 103, 104, 105, 106, 107, 108, 109],
+ "seeds_already_used": [0, 1, 2],
+ "per_seed": "random 5000/5000 split numpy.random.default_rng(1000 + seed); Ensemble(seed=seed) of scripts/confirm/common.py; P_E = 1/2 (FPR + FNR) on the test half",
+ "tolerance": 0.02,
+ "rule": "a cell passes when |mean P_E over the ten seeds - adopted reference (configs/g4_reference.json, WIFS2016)| <= 0.02; G4 on fresh seeds passes when all four cells pass",
+ "also_reported": ["P_E per seed and seed s.d.", "difference from the replaced references (arXiv 1705.08616) at 0.3 bpp", "mean offset over the four cells (the sensitivity threshold of condition (i) of alpha* used 0.45 + 0.0084)"],
+ "consequence": "Reported in the supplementary material next to the registered G4. If the fresh-seed G4 fails, this is stated; the registered G4 decision and the analyses that used it are not changed. If the mean offset differs from 0.0084 by more than 0.005, the sensitivity analysis of alpha* is reported for both offsets."
+}

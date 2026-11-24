@@ -1,0 +1,19 @@
+{
+ "title": "E1-ter: calibrated two-sided test of the learned distinguisher D4 on fresh ALASKA2 covers",
+ "registered": "2026-11-24, after review (finding F01 of the 24 Nov 2026 regression audit); fixed before any E1-ter image is downloaded or processed",
+ "does_not_change": "the registered outcomes of E1 (G3 failed for D4 on BOSSbase/BOWS2) and of E1-bis (G3' passed); E1-ter is reported as a separate, later replication",
+ "ids_file": "data/external/alaska2/e1ter_ids.txt",
+ "ids_sha256": "00565334243b9bdc7a481e2493165e8310f42cc95a5828ad2d2c2f0ffd2fb6ea",
+ "ids_rule": "every index of ALASKAv2Base_by_DSC.txt outside the *_FLATS and *_TEXTURES groups and outside e1bis_ids.txt (which contains the E7 list); no sampling",
+ "n": 38533,
+ "folds": "5 random folds per image, numpy.random.default_rng(20261124).permutation(n) % 5",
+ "cells": "layout A8, Kemeleon variants 1536 B and 1252 B, buckets 256-8192 (12 cells), syndrome extraction identical to E1-bis",
+ "statistic": "D4 of E1 unchanged: seq_features, standardization on the training part, logistic regression C = 0.05, 5-fold cross-validation; signed advantage adv = 2 acc - 1 over all images",
+ "null": "R = 1000 data sets per syndrome length, uniform strings for both classes, n images, random folds, five models retrained per data set (scripts/confirm/e1bis_power.py one(), seed tag 40); computed before extraction",
+ "rule_equivalence": "a cell passes when |adv| + 1.645 SD_null(L) <= 0.02 (two one-sided tests at 0.05); the claim 'all twelve cells within 0.02' is an intersection-union test at level 0.05",
+ "rule_detection": "two-sided null p-value (1 + #{|adv_null| >= |adv|}) / (R + 1); Holm over the twelve cells at 0.05",
+ "verdict": "'equivalent within 0.02' if all twelve cells pass; 'distinguisher detected' if a Holm-adjusted p <= 0.05; otherwise 'inconclusive'",
+ "operating_characteristics": "type-I error of each cell's equivalence claim at |adv| = 0.02 is 0.05 under the normal approximation with the s.d. at the margin equal to SD_null; power at adv = 0 is computed in the design step from the null draws and reported before extraction",
+ "D1": "LLR difference with bootstrap CI, descriptive only",
+ "deviations": "any change after this file is committed is listed with its date in the supplementary material"
+}

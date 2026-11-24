@@ -20,8 +20,8 @@ STEPS = _load("plan_table").parse((ORCH / "pipeline.ps1").read_text(encoding="ut
 
 def test_steps_are_consistent():
     ids = [s["id"] for s in STEPS]
-    assert len(ids) == len(set(ids)) == 81          # lanes W1-W12
-    assert {s["lane"] for s in STEPS} == {"W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8", "W9", "W10", "W11", "W12"}
+    assert len(ids) == len(set(ids)) == 91          # lanes W1-W13
+    assert {s["lane"] for s in STEPS} == {"W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8", "W9", "W10", "W11", "W12", "W13"}
     pos = {s["id"]: k for k, s in enumerate(STEPS)}
     for s in STEPS:
         assert (ROOT / s["args"][0].replace("\\", "/")).exists(), s["args"][0]   # the called script exists
@@ -69,6 +69,12 @@ def test_steps_are_consistent():
     # PH3 (alpha* by threshold) reads the final summary (PF3) and the SRNet decisions (G13).
     assert "W12" not in text.split("$ManualLanes")[0].split("$LaneTitle = ")[1]
     assert [s["id"] for s in STEPS if s["lane"] == "W12"] == ["PH1", "PH2", "PH3"]
+    # Manual lane W13 (registered after review, 24 Nov 2026): the E1-ter design step (null draws) precedes the download.
+    w13 = [s["id"] for s in STEPS if s["lane"] == "W13"]
+    assert w13 == ["RV1", "RV2", "RV3", "RV4", "RV5", "RV6", "RV7", "RV8", "RV9", "RV10"]
+    assert w13.index("RV4") < w13.index("RV5") < w13.index("RV7")
+    assert "W13" not in text.split("$ManualLanes")[0].split("$LaneTitle = ")[1]
+    assert "'W13'" in (ORCH / "run_lane.ps1").read_text(encoding="utf-8-sig")
     assert by["PH1"]["deps"] == ["C3"] and by["PH2"]["deps"] == ["C3"] and set(by["PH3"]["deps"]) == {"PF3", "G13"}
     assert "--null-R" in by["PH2"]["args"] and "decisions_srnet.json" in " ".join(by["PH3"]["args"])
     assert "'W12'" in (ORCH / "run_lane.ps1").read_text(encoding="utf-8-sig")

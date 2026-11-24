@@ -10,7 +10,7 @@
   run_all.ps1 runs it again. The long scripts (C1, C4, C5, 3a, 3e, SRNet) resume from the part already finished.
 #>
 param(
-    [Parameter(Mandatory = $true)][ValidateSet('W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8', 'W9', 'W10', 'W11', 'W12')][string]$Lane,
+    [Parameter(Mandatory = $true)][ValidateSet('W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8', 'W9', 'W10', 'W11', 'W12', 'W13')][string]$Lane,
     [string[]]$Only = @(),
     [switch]$DryRun
 )

@@ -26,6 +26,7 @@ $ManualLanes = [ordered]@{
     W10 = 'Phase E (manual): C7 with 10 splits, C9 remeasured, S5 with D_pub of BL3, variant R at 0.04651, JPEG QF95'
     W11 = 'Final aggregation: bootstrap 10^4 + M = 4, 10-split summary as main summary, E5/tables/figures after SRNet'
     W12 = 'Post-hoc analyses (not registered): E1 D4 null check and model-refit bootstrap, alpha* threshold sensitivity'
+    W13 = 'Registered after review (24 Nov 2026): G4 on fresh seeds, E1-ter on fresh ALASKA2, receiver load, epsilon_valid bound'
 }
 $LaneTitleAll = [ordered]@{}
 foreach ($k in $LaneTitle.Keys) { $LaneTitleAll[$k] = $LaneTitle[$k] }
@@ -34,6 +35,7 @@ foreach ($k in $ManualLanes.Keys) { $LaneTitleAll[$k] = $ManualLanes[$k] }
 $SplitSha256 = '8d38c3aab7a773758ecb755f208accdc39b5b2db87da21eab1db5554f1001b57'   # split_v1, generated on 06/11/2026
 $E1bisIdsSha256 = '88cbe2e85bae9e930bcb412a422779e50598f4230f1f5631c9e9aa289f3b1f5a'    # e1bis_ids.txt
 $E1bisSplitSha256 = '18e1c90da36f74c2b330e039cb04a284c662ea6be89083dda6fbd6d2f742daca'  # e1bis_v1.json
+$E1terIdsSha256 = '00565334243b9bdc7a481e2493165e8310f42cc95a5828ad2d2c2f0ffd2fb6ea'   # e1ter_ids.txt (registrations\e1ter_plan.json)
 $E7SplitSha256 = 'cbc62449b63eb82ac129adc70f7387d8d76225dea122e453cdff97cfeb4f0188'     # e7_v1.json (generated on 08/11/2026, before any stego image)
 
 $Steps = @(
@@ -247,6 +249,34 @@ $Steps = @(
     @{ Id = 'PH3'; Lane = 'W12'; Name = 'Post hoc: alpha* at decision thresholds 0.35-0.45 (Table S13)'; Kind = 'py'
        Args = @('scripts\analysis\alpha_star_thresholds.py', 'results\confirm_v1\summary.json', '--srnet', 'results\srnet\decisions_srnet.json', '--out', 'results\confirm_v1\alpha_star_thresholds.json')
        Deps = @('PF3', 'G13'); Est = '< 1 min'; Out = 'results\confirm_v1\alpha_star_thresholds.json' }
+
+    # ---------------- W13: registered after review (24 Nov 2026), manual lane ----------------
+    # Plans in registrations\ are committed before these steps run; none changes a registered decision of E1, E1-bis or G4.
+    @{ Id = 'RV1'; Lane = 'W13'; Name = 'G4 for SRM on ten fresh seeds (registrations\g4_new_seeds_plan.json)'; Kind = 'py'
+       Args = @('scripts\confirm\g4_new_seeds.py'); Deps = @('3f'); Est = '1-3 h'; Out = 'results\g4_new_seeds\g4_new_seeds_summary.json' }
+    @{ Id = 'RV2'; Lane = 'W13'; Name = 'E1-ter: list of the 38 533 unused ALASKA2 images (must equal the registered list)'; Kind = 'py'
+       Args = @('scripts\data\make_alaska2_e1ter_subset.py'); Deps = @(); Est = '< 1 min'; Out = 'data\external\alaska2\e1ter_ids.txt'
+       Check = { $f = Join-Path $Root 'data\external\alaska2\e1ter_ids.txt'
+                 if ((Get-FileHash -Algorithm SHA256 $f).Hash.ToLower() -ne $E1terIdsSha256) { "e1ter_ids.txt differs from the registered file ($E1terIdsSha256)" } } }
+    @{ Id = 'RV3'; Lane = 'W13'; Name = 'E1-ter: 5-fold split'; Kind = 'py'
+       Args = @('scripts\confirm\e1ter.py', 'split'); Deps = @(); Est = '< 1 min'; Out = 'results\e1ter\e1ter_split.json' }
+    @{ Id = 'RV4'; Lane = 'W13'; Name = 'E1-ter: null draws with retraining and power (before any image)'; Kind = 'py'
+       Args = @('scripts\confirm\e1ter.py', 'design', '--R', '1000', '--workers', '7'); Deps = @(); Est = '15-40 min'; Out = 'results\e1ter_design\sd_null.json' }
+    @{ Id = 'RV5'; Lane = 'W13'; Name = 'E1-ter: download 38 533 ALASKA2 images (~10 GB)'; Kind = 'ps'
+       Args = @('scripts\data\download_alaska2.ps1', '-List', 'data\external\alaska2\e1ter_ids.txt'); Deps = @(); Est = '2-8 h (network)'
+       Out = 'data\external\raw\alaska2_tiff512' }
+    @{ Id = 'RV6'; Lane = 'W13'; Name = 'E1-ter: verify images, convert to PGM'; Kind = 'py'
+       Args = @('scripts\data\verify_alaska2.py', '--list', 'data\external\alaska2\e1ter_ids.txt', '--budget', '1e9'); Deps = @(); Est = '20-60 min'
+       Out = 'data\external\alaska2\pgm' }
+    @{ Id = 'RV7'; Lane = 'W13'; Name = 'E1-ter: extract syndromes, 12 cells'; Kind = 'py'
+       Args = @('scripts\confirm\e1ter.py', 'extract', '--workers', '4'); Deps = @(); Est = '1-2 h'; Out = 'results\e1ter\raw' }
+    @{ Id = 'RV8'; Lane = 'W13'; Name = 'E1-ter: D4 with the registered two-sided rule'; Kind = 'py'
+       Args = @('scripts\confirm\e1ter.py', 'analyze'); Deps = @(); Est = '30-90 min'; Out = 'results\e1ter\e1ter_summary.json' }
+    @{ Id = 'RV9'; Lane = 'W13'; Name = 'Receiver load: invalid images at concurrency 1/4/16/64, reference and cached receiver'; Kind = 'py'
+       Args = @('scripts\experiments\e6_load.py', '--levels', '1', '4', '16', '64', '--images', '8', '--reps', '3'); Deps = @(); Est = '3-6 h'
+       Out = 'results\e6_load\e6_load_summary.json' }
+    @{ Id = 'RV10'; Lane = 'W13'; Name = 'Bound on epsilon_valid with G as a random oracle (exact arithmetic)'; Kind = 'py'
+       Args = @('scripts\theory\epsilon_valid_rom.py'); Deps = @(); Est = '< 1 min'; Out = 'console output' }
 
     # ---------------- W2 ----------------
     @{ Id = 'G1'; Lane = 'W2'; Name = 'Install .venv-gpu (torch CUDA)'; Kind = 'ps'

@@ -100,6 +100,10 @@ powershell -ExecutionPolicy Bypass -File .\run_all.ps1 -Reset    # full run
 
 which opens one window per lane of `scripts/orchestration/pipeline.ps1` and a monitor window.
 
+The steps added after the review of 24 November 2026 (G4 on fresh seeds, E1-ter on unused ALASKA2 images, receiver load
+benchmark, a random-oracle bound on epsilon_valid, a clean-environment check) are listed in section 9 of
+[`docs/reproduction.md`](docs/reproduction.md); their plans are in [`registrations/`](registrations/).
+
 ## Frozen profile
 
 `configs/profile_frozen_v1.json` records the public parameters, the profile identifiers of the systems, the

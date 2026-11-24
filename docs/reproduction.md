@@ -136,3 +136,23 @@ distribution, not the same bytes. Messages are encrypted before embedding, so on
 The warden scores of every cover, the extracted strings and the E1 syndromes of the run reported in the article are in
 the dataset record; the SRM and SPAM feature matrices (about 58 GB of memmaps for E2/E3 alone) are not archived because
 of their size.
+
+## 9. Steps registered after review (lane W13)
+
+These steps answer the regression audit of 24 November 2026. Their plans are in `registrations/` and were committed before
+the steps were run; none changes a registered decision of E1, E1-bis or G4, and each result is reported as a separate, later
+analysis. In the standard layout run them with `run_lane.ps1 -Lane W13`; when the measurement data live in another folder,
+`scripts/orchestration/run_review_steps.ps1 -Step RVk -Work <folder>` runs the released code on that folder.
+
+| Step | Script | Purpose |
+|---|---|---|
+| RV1 | `scripts/confirm/g4_new_seeds.py` | gate G4 for SRM on ten fresh seeds (100-109), compared with the adopted and the replaced references (`registrations/g4_new_seeds_plan.json`) |
+| RV2-RV8 | `scripts/data/make_alaska2_e1ter_subset.py`, `scripts/confirm/e1ter.py` | E1-ter: the learned distinguisher D4 on the 38 533 ALASKA2 images that no earlier step used, with a two-sided rule calibrated by null draws that retrain the models (`registrations/e1ter_plan.json`, `registrations/E1TER_PLAN.md`); the null draws (RV4) are computed before any image is downloaded |
+| RV9 | `scripts/experiments/e6_load.py`, `scripts/experiments/receiver_fast.py` | receiver cost of invalid images at concurrency 1/4/16/64 (p50/p95/p99, throughput) for the reference receiver and for a receiver that caches the key-dependent work; `tests/test_receiver_fast.py` checks that both give the same outputs |
+| RV10 | `scripts/theory/epsilon_valid_rom.py` | bound on the term epsilon_valid of the correctness theorem with G as a random oracle, which needs no assumption on the cover source |
+
+`scripts/verify/clean_env_check.ps1` (with `clean_env_check.py`) checks a release in a new folder and a new virtual
+environment: it clones the tag, installs `requirements.txt`, downloads the core archive of the dataset record, and
+regenerates `RESULTS_TABLES.md`, `PHASE_D_TABLES_en.md`, Table S13 and the aggregates of Table S12 from the archived inputs,
+comparing each with the archived output (`clean_env_check.json`). `scripts/setup/check_bl1_reference.py` checks a local copy
+of the BL1 reference modules against `baselines/bl1_reference.SHA256SUMS`.

@@ -27,6 +27,9 @@ reference modules (`ECCurve.py`, `ECencrypt.py`, `ECdecrypt.py`, `Embed.py`, `Ex
 `BinToText.py`, `mod_sqrt.py`, `PicToData.py`) in `baselines/bl1_reference/` or set `PQPKS_BL1_REFERENCE_DIR`.
 Without them these tests are skipped and the BL1 rows of the pilot and cross-check scripts cannot be produced; the
 confirmatory scripts (`scripts/confirm/`, `scripts/experiments/`) do not use BL1.
+The SHA-256 of the nine modules used in the pilot rounds are published in `baselines/bl1_reference.SHA256SUMS`;
+`python scripts/setup/check_bl1_reference.py [folder]` checks a local copy against them. BL1 was run only in the pilot
+rounds (`results/archive/pre-confirm/pilot_baselines/` of the dataset record) and enters no result of the article.
 
 ## BL4: adaptation of [Zha25] to the image channel
 
