@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use this software, please cite the article in preferred-citation."
 type: software
 title: "Code for: Structural Payload Leakage in Post-Quantum Public-Key Image Steganography"
-version: "1.0.1"
+version: "1.0.2"
 doi: "10.5281/zenodo.24465712"
 identifiers:
   - type: doi
@@ -11,6 +11,9 @@ identifiers:
   - type: doi
     value: "10.5281/zenodo.24465713"
     description: "Version DOI of release v1.0.0 (first release)"
+  - type: doi
+    value: "10.5281/zenodo.24489200"
+    description: "Version DOI of release v1.0.1"
   - type: doi
     value: "10.5281/zenodo.24487851"
     description: "Dataset pq-pks-raw-data-v1, version 1.1 (raw measurement data)"

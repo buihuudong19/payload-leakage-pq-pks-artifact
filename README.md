@@ -13,10 +13,11 @@ Kemeleon so that the extracted string is close to uniform. The code implements P
 systems of the comparison, the wardens, and every experiment of the article (E1 to E7, the ablations and
 the SRNet runs).
 
-Release `v1.0.1` is the version used in the article. The badge above (concept DOI https://doi.org/10.5281/zenodo.24465712)
-always points to the latest version; release `v1.0.0` is https://doi.org/10.5281/zenodo.24465713. Release `v1.0.1` adds the
-post hoc lane W12 (`scripts/confirm/e1_posthoc_refit.py` and its tests) and documentation updates; nothing in `src/` or
-`configs/` changed. The raw measurement data are archived separately at https://doi.org/10.5281/zenodo.24487851
+Release `v1.0.2` is the version used in the article. The badge above (concept DOI https://doi.org/10.5281/zenodo.24465712)
+always points to the latest version; release `v1.0.0` is https://doi.org/10.5281/zenodo.24465713 and release `v1.0.1`
+https://doi.org/10.5281/zenodo.24489200. Release `v1.0.1` added the post hoc lane W12 (`scripts/confirm/e1_posthoc_refit.py`);
+release `v1.0.2` adds the steps registered after review (lane W13, `registrations/`) and the scripts that run them. In
+every release nothing in `src/` or `configs/` changed; see [`CHANGELOG.md`](CHANGELOG.md). The raw measurement data are archived separately at https://doi.org/10.5281/zenodo.24487851
 (version 1.1; see [Measurement data](#measurement-data)).
 
 > **Research code.** The Kemeleon encoding is implemented with Python big integers and is not constant time.

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pqpks"
-version = "1.0.1"
+version = "1.0.2"
 description = "PQ-PKS: post-quantum public-key image steganography with pseudorandom payloads (research code)"
 readme = "README.md"
 license = { text = "MIT" }

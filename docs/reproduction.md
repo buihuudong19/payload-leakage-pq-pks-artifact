@@ -147,8 +147,8 @@ analysis. In the standard layout run them with `run_lane.ps1 -Lane W13`; when th
 | Step | Script | Purpose |
 |---|---|---|
 | RV1 | `scripts/confirm/g4_new_seeds.py` | gate G4 for SRM on ten fresh seeds (100-109), compared with the adopted and the replaced references (`registrations/g4_new_seeds_plan.json`) |
-| RV2-RV8 | `scripts/data/make_alaska2_e1ter_subset.py`, `scripts/confirm/e1ter.py` | E1-ter: the learned distinguisher D4 on the 38 533 ALASKA2 images that no earlier step used, with a two-sided rule calibrated by null draws that retrain the models (`registrations/e1ter_plan.json`, `registrations/E1TER_PLAN.md`); the null draws (RV4) are computed before any image is downloaded |
-| RV9 | `scripts/experiments/e6_load.py`, `scripts/experiments/receiver_fast.py` | receiver cost of invalid images at concurrency 1/4/16/64 (p50/p95/p99, throughput) for the reference receiver and for a receiver that caches the key-dependent work; `tests/test_receiver_fast.py` checks that both give the same outputs |
+| RV2-RV8 | `scripts/data/make_alaska2_e1ter_subset.py`, `scripts/confirm/e1ter.py` | E1-ter: the learned distinguisher D4 on the 38 533 ALASKA2 images that no earlier step used, with a two-sided rule calibrated by null draws that retrain the models (`registrations/e1ter_plan.json`, `registrations/E1TER_PLAN.md`); the null draws (RV4) are computed before any image is processed (RV7 refuses to start without them, and RV4 refuses to run once syndromes exist) |
+| RV9 | `scripts/experiments/e6_load.py`, `scripts/experiments/receiver_fast.py` | post hoc, not registered: receiver cost of invalid images at concurrency 1/4/8/16 (p50/p95/p99, throughput) for the reference receiver and for a receiver that caches the key-dependent work; `tests/test_receiver_fast.py` checks that both give the same outputs. Levels above the number of logical processors are refused: the first run with 64 processes exhausted the memory of a 32 GB desktop |
 | RV10 | `scripts/theory/epsilon_valid_rom.py` | bound on the term epsilon_valid of the correctness theorem with G as a random oracle, which needs no assumption on the cover source |
 
 `scripts/verify/clean_env_check.ps1` (with `clean_env_check.py`) checks a release in a new folder and a new virtual
@@ -156,3 +156,11 @@ environment: it clones the tag, installs `requirements.txt`, downloads the core 
 regenerates `RESULTS_TABLES.md`, `PHASE_D_TABLES_en.md`, Table S13 and the aggregates of Table S12 from the archived inputs,
 comparing each with the archived output (`clean_env_check.json`). `scripts/setup/check_bl1_reference.py` checks a local copy
 of the BL1 reference modules against `baselines/bl1_reference.SHA256SUMS`.
+
+Results of the run of 24 November 2026 (desktop with 16 logical processors; files in the dataset record, version 1.2):
+G4 passes on the ten fresh seeds in all four cells (largest difference from the adopted references 0.0048); E1-ter
+passes all twelve cells under its registered rule (verdict "equivalent within 0.02", largest bound 0.0196); with 16
+processes the reference receiver rejects 1.47 invalid images per second and the cached receiver 11.7; with G as a random
+oracle epsilon_valid <= 2^-68.92. In that run RV5 (download) was started in parallel with RV1-RV4, which the plan allows;
+the order that the plan fixes, null draws before syndrome extraction, was kept. RV6 first stopped on a console-encoding
+error after converting every image; `run_review_steps.ps1` now runs Python in UTF-8 mode.

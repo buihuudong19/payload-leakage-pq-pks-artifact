@@ -9,9 +9,13 @@ start to the last finish). Two receivers are measured:
   cached     receiver_fast.fast_system("PQ-PKS"): same decisions and outputs, with cached stage-2 permutations and a
              shift-register syndrome (tests/test_receiver_fast.py checks the equality of outputs).
 
-    python scripts/experiments/e6_load.py --levels 1 4 16 64 --images 8 --reps 3 --mode reference cached
+    python scripts/experiments/e6_load.py --levels 1 4 8 16 --images 8 --reps 3 --mode reference cached
     python scripts/experiments/e6_load.py --synthetic --levels 1 2 --images 2 --reps 1      # code test without cover images
-Output: results/e6_load/e6_load_summary.json (+ every latency in e6_load_latencies.json).
+Output: results/e6_load/e6_load_summary.json (+ every latency in e6_load_latencies.json), rewritten after every level, so a run
+that stops can be continued: levels already in the summary are skipped (use --fresh to start again).
+Levels above the number of logical processors are refused (--allow-oversubscribe to override): each worker is a full process
+with its own imports and covers, and 64 workers exhausted the commit limit of a 16-thread, 32 GB desktop on 24 Nov 2026.
+A worker that dies stops the level with an error instead of leaving the others waiting at the barrier.
 """
 from __future__ import annotations
 
@@ -20,6 +24,7 @@ import json
 import multiprocessing as mp
 import os
 import platform
+import queue
 import sys
 import time
 from pathlib import Path
@@ -28,6 +33,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "results" / "e6_load"
+BARRIER_TIMEOUT = 1800.0            # seconds a worker waits for the others after its warm-up
 
 
 def synthetic_cover(rng: np.random.Generator) -> np.ndarray:
@@ -60,7 +66,7 @@ def worker(wid, mode, n_img, synthetic, offset, barrier, q):
         s.receive(dk, s.send(sess, b"o", x), st)
     bad = covers[S:]
     r = s.receive(dk, bad[0], st)                          # warm-up (numba compilation, caches), not timed
-    barrier.wait()
+    barrier.wait(timeout=BARRIER_TIMEOUT)
     t_start = time.perf_counter()
     lat, trials = [], {r.trials}
     for x in bad[1:]:
@@ -78,9 +84,22 @@ def run_level(mode, c, n_img, synthetic, rep):
     ps = [ctx.Process(target=worker, args=(w, mode, n_img, synthetic, 97 * rep, barrier, q)) for w in range(c)]
     for p in ps:
         p.start()
-    res = [q.get() for _ in ps]
-    for p in ps:
-        p.join()
+    res = []
+    try:
+        while len(res) < c:
+            try:
+                res.append(q.get(timeout=10))
+            except queue.Empty:
+                dead = [p for p in ps if p.exitcode not in (None, 0)]
+                if dead:
+                    raise RuntimeError(f"{mode} c={c} rep {rep}: {len(dead)} of {c} workers died "
+                                       f"(exit codes {sorted({p.exitcode for p in dead})}); see the messages above")
+    finally:
+        for p in ps:
+            if p.is_alive() and len(res) < c:
+                p.terminate()
+        for p in ps:
+            p.join()
     lat = np.concatenate([r["lat"] for r in res])
     wall = max(r["t_end"] for r in res) - min(r["t_start"] for r in res)
     return lat, wall, sorted({t for r in res for t in r["trials"]})
@@ -88,22 +107,39 @@ def run_level(mode, c, n_img, synthetic, rep):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--levels", type=int, nargs="+", default=[1, 4, 16, 64])
+    ap.add_argument("--levels", type=int, nargs="+", default=[1, 4, 8, 16])
     ap.add_argument("--images", type=int, default=8, help="timed invalid images per worker")
     ap.add_argument("--reps", type=int, default=3)
     ap.add_argument("--mode", nargs="+", choices=["reference", "cached"], default=["reference", "cached"])
     ap.add_argument("--synthetic", action="store_true", help="code test: synthetic covers instead of BOSSbase pilot covers")
     ap.add_argument("--out", default=str(OUT))
+    ap.add_argument("--fresh", action="store_true", help="ignore an earlier summary in --out and measure every level again")
+    ap.add_argument("--allow-oversubscribe", action="store_true", help="allow levels above the number of logical processors")
     a = ap.parse_args()
+    ncpu = os.cpu_count() or 1
+    too_many = [c for c in a.levels if c > ncpu]
+    if too_many and not a.allow_oversubscribe:
+        raise SystemExit(f"levels {too_many} exceed the {ncpu} logical processors of this machine; "
+                         "drop them or pass --allow-oversubscribe")
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
-    res = {"label": "post hoc (24 Nov 2026), finding F06; E6 of the paper is unchanged", "cpu_count": os.cpu_count(),
-           "platform": platform.platform(), "processor": platform.processor(), "python": sys.version.split()[0],
-           "S_max": 16, "images_per_worker": a.images, "reps": a.reps, "synthetic": a.synthetic, "rows": []}
-    raw = {}
+    meta = {"label": "post hoc (24 Nov 2026), finding F06; E6 of the paper is unchanged", "cpu_count": ncpu,
+            "platform": platform.platform(), "processor": platform.processor(), "python": sys.version.split()[0],
+            "S_max": 16, "images_per_worker": a.images, "reps": a.reps, "synthetic": a.synthetic}
+    res, raw = dict(meta, rows=[]), {}
+    fs, fl = out / "e6_load_summary.json", out / "e6_load_latencies.json"
+    if fs.exists() and fl.exists() and not a.fresh:
+        old = json.loads(fs.read_text(encoding="utf-8"))
+        if all(old.get(k) == v for k, v in meta.items() if k not in ("label",)):
+            res["rows"], raw = old["rows"], json.loads(fl.read_text(encoding="utf-8"))
+            print(f"continuing {fs}: {len(res['rows'])} levels already measured", flush=True)
+        else:
+            raise SystemExit(f"{fs} was made with other settings or on another machine; use --fresh or another --out")
     t0 = time.time()
     for mode in a.mode:
         for c in a.levels:
+            if any(r["mode"] == mode and r["concurrency"] == c for r in res["rows"]):
+                continue
             lats, walls, tr = [], [], set()
             for rep in range(a.reps):
                 lat, wall, trials = run_level(mode, c, a.images, a.synthetic, rep)
@@ -118,9 +154,10 @@ def main():
                    "throughput_min_max": [float(min(thr)), float(max(thr))], "trials_per_image": sorted(tr)}
             res["rows"].append(row)
             raw[f"{mode}_c{c}"] = L.tolist()
-    res["seconds"] = round(time.time() - t0)
-    (out / "e6_load_summary.json").write_text(json.dumps(res, indent=1), encoding="utf-8")
-    (out / "e6_load_latencies.json").write_text(json.dumps(raw), encoding="utf-8")
+            res["seconds"] = res.get("seconds", 0) + round(time.time() - t0)
+            t0 = time.time()
+            fl.write_text(json.dumps(raw), encoding="utf-8")
+            fs.write_text(json.dumps(res, indent=1), encoding="utf-8")
     for r in res["rows"]:
         print(f"{r['mode']:9s} c={r['concurrency']:3d}: p50 {r['p50_s']:.2f} s, p95 {r['p95_s']:.2f} s, p99 {r['p99_s']:.2f} s, "
               f"{r['throughput_img_per_s']:.2f} img/s")

@@ -82,7 +82,7 @@ after review (`registrations/`); neither changes a registered decision.
 | 72 | RV6 | W13 | `& $Py scripts\data\verify_alaska2.py --list data\external\alaska2\e1ter_ids.txt --budget 1e9` | E1-ter: verify images, convert to PGM | RV5 | 20-60 min | `data\external\alaska2\pgm` |
 | 73 | RV7 | W13 | `& $Py scripts\confirm\e1ter.py extract --workers 4` | E1-ter: extract syndromes, 12 cells | RV6 | 1-2 h | `results\e1ter\raw` |
 | 74 | RV8 | W13 | `& $Py scripts\confirm\e1ter.py analyze` | E1-ter: D4 with the registered two-sided rule | RV7 | 30-90 min | `results\e1ter\e1ter_summary.json` |
-| 75 | RV9 | W13 | `& $Py scripts\experiments\e6_load.py --levels 1 4 16 64 --images 8 --reps 3` | Receiver load: invalid images at concurrency 1/4/16/64, reference and cached receiver | RV8 | 3-6 h | `results\e6_load\e6_load_summary.json` |
+| 75 | RV9 | W13 | `& $Py scripts\experiments\e6_load.py --levels 1 4 8 16 --images 8 --reps 3` | Receiver load: invalid images at concurrency 1/4/8/16, reference and cached receiver | RV8 | 1-2 h | `results\e6_load\e6_load_summary.json` |
 | 76 | RV10 | W13 | `& $Py scripts\theory\epsilon_valid_rom.py` | Bound on epsilon_valid with G as a random oracle (exact arithmetic) | RV9 | < 1 min | `console output` |
 | 77 | G1 | W2 | `powershell -ExecutionPolicy Bypass -File scripts\gpu\setup_gpu.ps1` | Install .venv-gpu (torch CUDA) · checked after running | – | 10-30 min | `.venv-gpu` |
 | 78 | G3a | W2 | `& $PyG scripts\gpu\srnet_train.py --run g4_hill_0.4 --until 200000` | SRNet G4 HILL 0.4: 200k iterations lr 1e-3 (branch point) | G1, C1 | ~11 h | `results\srnet\g4_hill_0.4` |

@@ -15,7 +15,7 @@
     RV6  E1-ter: verify the images and convert them to PGM     20-60 min
     RV7  E1-ter: extract the syndromes                         1-2 h
     RV8  E1-ter: analysis with the registered rule             30-90 min
-    RV9  receiver load benchmark (reference and cached receiver; concurrency 1/4/16/64)   3-6 h
+    RV9  receiver load benchmark (reference and cached receiver; concurrency 1/4/8/16)   1-2 h
     RV10 bound on epsilon_valid with G as a random oracle       < 1 min
   Each step writes its console output to -Work\results\review_logs\<step>.log.
 .EXAMPLE
@@ -36,6 +36,12 @@ if (-not $Py) { $Py = Join-Path $Work '.venv-confirm\Scripts\python.exe' }
 if (-not (Test-Path $Py)) { throw "Python not found: $Py" }
 $Logs = Join-Path $Work 'results\review_logs'
 New-Item -ItemType Directory -Force -Path $Logs | Out-Null
+# Console output of Python goes through a pipe (Tee-Object); without UTF-8 mode Python encodes it with the ANSI code page
+# (cp1252) and stops on any non-Latin-1 character, e.g. the Vietnamese messages of the measurement-folder scripts.
+$env:PYTHONUTF8 = '1'
+$env:PYTHONIOENCODING = 'utf-8'
+# Windows PowerShell reads the output of a child process with [Console]::OutputEncoding (OEM code page by default).
+try { [Console]::OutputEncoding = [Text.Encoding]::UTF8 } catch { }
 $RegisteredIdsSha = '00565334243b9bdc7a481e2493165e8310f42cc95a5828ad2d2c2f0ffd2fb6ea'
 $a2 = Join-Path $Work 'data\external\alaska2'
 
@@ -71,7 +77,7 @@ foreach ($s in $Step) {
         'RV8' { Invoke-Logged $s $Py @('scripts\confirm\e1ter.py', 'analyze', '--work', $Work) }
         'RV9' {
             $env:PQPKS_BOSSBASE_DIR = Join-Path $Work 'data\external\bossbase'
-            Invoke-Logged $s $Py @('scripts\experiments\e6_load.py', '--levels', '1', '4', '16', '64', '--images', '8', '--reps', '3',
+            Invoke-Logged $s $Py @('scripts\experiments\e6_load.py', '--levels', '1', '4', '8', '16', '--images', '8', '--reps', '3',
                 '--out', (Join-Path $Work 'results\e6_load'))
         }
         'RV10' { Invoke-Logged $s $Py @('scripts\theory\epsilon_valid_rom.py') }

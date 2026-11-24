@@ -272,8 +272,8 @@ $Steps = @(
        Args = @('scripts\confirm\e1ter.py', 'extract', '--workers', '4'); Deps = @(); Est = '1-2 h'; Out = 'results\e1ter\raw' }
     @{ Id = 'RV8'; Lane = 'W13'; Name = 'E1-ter: D4 with the registered two-sided rule'; Kind = 'py'
        Args = @('scripts\confirm\e1ter.py', 'analyze'); Deps = @(); Est = '30-90 min'; Out = 'results\e1ter\e1ter_summary.json' }
-    @{ Id = 'RV9'; Lane = 'W13'; Name = 'Receiver load: invalid images at concurrency 1/4/16/64, reference and cached receiver'; Kind = 'py'
-       Args = @('scripts\experiments\e6_load.py', '--levels', '1', '4', '16', '64', '--images', '8', '--reps', '3'); Deps = @(); Est = '3-6 h'
+    @{ Id = 'RV9'; Lane = 'W13'; Name = 'Receiver load: invalid images at concurrency 1/4/8/16, reference and cached receiver'; Kind = 'py'
+       Args = @('scripts\experiments\e6_load.py', '--levels', '1', '4', '8', '16', '--images', '8', '--reps', '3'); Deps = @(); Est = '1-2 h'
        Out = 'results\e6_load\e6_load_summary.json' }
     @{ Id = 'RV10'; Lane = 'W13'; Name = 'Bound on epsilon_valid with G as a random oracle (exact arithmetic)'; Kind = 'py'
        Args = @('scripts\theory\epsilon_valid_rom.py'); Deps = @(); Est = '< 1 min'; Out = 'console output' }
